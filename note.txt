@@ -1,0 +1,130 @@
+btw pak, ekspedisinya bisa dihold dulu aja, 
+kita lagi ada program untuk promosi LintasGPS ke usaha travel / rental mobil. 
+
+basic rule sederhanya:
+- hanya mobil yang terdaftar di LintasGPS member yang akan dikeluarkan (master mobil)
+- user hanya user yang terdaftar di LintasGPS user
+- login jadi satu dengan LintasGPS
+- pisahkan path aja
+
+SFTP source lintas di sftp://trackme.simetri.in user trackme, pass trackme*96
+Bisa pake bootstrap seperti lintasgps.com/v2 atau pake ExtJS seperti di lintasgps.com / IG
+Tetapi sebaiknya pake bootstrap karena target UI di tablet/tab
+
+berikut detailnya
+
+Desain Rental Software
+
+1. master user == master user LintasGPS
+2. master mobil == master devices
+3. master sopir/driver
+   - data sopir (nama,alamat,telp,hp)
+   - tarif per hari
+4. customer > data customer
+    - nama, alamat, telp, email, gender
+5. rental/sewa
+   - customer
+   - tanggal order
+   - uang muka
+   - total harga
+   - sisa
+   - keterangan
+   detail rental
+   - mobil
+   - supir
+   - tanggal keluar
+   - tanggal kembali
+   - status (order,keluar,kembali)
+   - kondisi mobil
+   - harga sewa per hari
+   - tujuan 
+   - lama sewa
+   - harga sopir
+   - lama sopir
+   - kondisi mobil keluar
+   - kondisi mobil masuk
+   - jaminan
+   - user terima sewa
+   - user terima masuk
+   
+# yang ini untuk travel
+6. roster
+   - hari
+   - jam
+   - tujuan
+   - kapasitas (jumlah seat)
+   - aktif/tidak aktif
+   - harga
+
+7. jadwal
+   - tanggal
+   - id roster
+   - supir
+   - berangkat
+   - sampai
+   
+8. reservasi
+   - idjadwal
+   - customer
+   - jumlah seat
+   - harga
+   - total
+   - keterangan (untuk tambahan)
+   - status (reserve, berangkat, sampai, batal, selesai)
+   
+Menu
+- Path URL = http://lintasgps.com/rental/
+- Login [single login dengan trackme/lintasgps]
+- Logout [single login dengan trackme/lintasgps]
+- Dashboard
+  - List mobil keluar urut dari tanggal kembali / keterlambatan
+  - List pemesanan
+
+- Sewa
+   Nomer: []                           Tanggal: []
+   Customer:
+      Nama:   [ cari/textbox otomatis add ]
+      Alamat: []
+      Telpon: []
+   Details
+   ---
+   Keluar    | Lama Sewa  | Mobil                            | Sopir                   | Tujuan | Biaya  | Kembali                    | Total            | Status
+   [tanggal] | [number]   | [combo,cek utk order lain]       | [combo/auto add]        | [text] | [Rp]   | [tgl,otomatis dr lama]     | [hitung auto]    | [combo]
+   [tanggal] | [number]   | [combo,cek utk order lain]       | [combo/auto add]        | [text] | [Rp]   | [tgl,otomatis dr lama]     | [hitung auto]    | [combo]
+   ---
+   Catatan: [ isi catatan ] 
+   Jaminan: []                                  Total Biaya    : [Rp]
+                                                Uang Muka      : [Rp]
+												Belum Terbayar : [Rp]
+
+- Rental Kembali
+   Nomer: [ cari nomer sewa/customer ] dan atau [tanggal rental]
+   tampilkan nota sewa, cekk mobil yg kembali dan kondisi
+
+- Master mobil (edit metadata saja)
+- Master customer (add/edit/delete)
+- Master sopir (add/edit/delete)
+
+#prioritas kedua [desain lagi workon]
+- Reservasi
+- roster
+- jadwal
+
+Mengenai keperluan grid di atas, bisa pakai komponen grid yang existing semacam datatables atau yang lain, jika tidak, ya ndak usah pake grid
+pake popup window juga ga masalah sebenernya.
+
+Kalau ada yg ditanyakan monggo bro
+
+
+- Validasi
+- Form Rental Detail
+
+
+
+Global
+1. Ada Modul untuk Company dan User => ok
+2. Tambahan Modul Alat / Device => ok
+
+Modul Jadwal
+1. Ada link untuk cetak detail Jadwal untuk sopir => ok
+
