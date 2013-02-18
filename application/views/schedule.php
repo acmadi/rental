@@ -20,6 +20,7 @@
 				<option value="roster_dest">Tujuan</option>
 				<option value="driver_name">Sopir</option>
 			</select>
+			<button class="btn btn-large Reset" type="button"><i class="splashy-sprocket_dark"></i></button>
 			<button class="btn btn-large Search" type="submit"><i class="icon-search"></i></button>
 		</div>
 		
@@ -54,15 +55,15 @@
 				</div>
 				<div class="control-group">
 					<label class="control-label" for="input_schedule_date">Tanggal</label>
-					<div class="controls"><input type="text" id="input_schedule_date" name="schedule_date" placeholder="Tanggal" class="datepicker" /></div>
+					<div class="controls"><input type="text" id="input_schedule_date" name="schedule_date" placeholder="Tanggal" class="datepicker" rel="twipsy" data-placement="right" data-original-title="Tanggal Jadwal" /></div>
 				</div>
 				<div class="control-group">
 					<label class="control-label" for="input_schedule_depature">Berangkat</label>
-					<div class="controls"><input type="text" id="input_schedule_depature" name="schedule_depature" placeholder="Berangkat" /></div>
+					<div class="controls"><input type="text" id="input_schedule_depature" name="schedule_depature" placeholder="Berangkat" rel="twipsy" data-placement="right" data-original-title="Jam Berangkat" /></div>
 				</div>
 				<div class="control-group">
 					<label class="control-label" for="input_schedule_arrival">Sampai</label>
-					<div class="controls"><input type="text" id="input_schedule_arrival" name="schedule_arrival" placeholder="Sampai" /></div>
+					<div class="controls"><input type="text" id="input_schedule_arrival" name="schedule_arrival" placeholder="Sampai" rel="twipsy" data-placement="right" data-original-title="Jam Sampai" /></div>
 				</div>
 				<div class="hidden"><input type="submit" name="Submit" value="Submit" /></div>
 			</form>
@@ -137,7 +138,6 @@ $(document).ready(function() {
 	}
 	
 	// Form Entry Schedule
-	$('#CntSchedule form .datepicker').datepicker({ format: DATE_FORMAT });
 	$('#CntSchedule .WindowScheduleAdd').click(function() {
 		$('#WindowSchedule').modal();
 		$('#WindowSchedule input[name="schedule_id"]').val(0);
@@ -173,16 +173,9 @@ $(document).ready(function() {
 	$('#CntSchedule .WindowScheduleClose').click(function() {
 		$('#WindowSchedule').modal('hide');
 	});
-	$('#WindowSchedule form').validate({
-		onkeyup: false, errorClass: 'error', validClass: 'valid',
-		highlight: function(element) { $(element).closest('div').addClass("f_error"); },
-		unhighlight: function(element) { $(element).closest('div').removeClass("f_error"); },
-		errorPlacement: function(error, element) { $(element).closest('div').append(error); },
-		rules: {
-			roster_id: { required: true },
-			driver_id: { required: true },
-			schedule_date: { required: true }
-		}
+	Func.InitForm({
+		Container: '#WindowSchedule',
+		rule: { roster_id: { required: true }, driver_id: { required: true }, schedule_date: { required: true } }
 	});
 	
 	// Load Feature Grid

@@ -68,6 +68,7 @@ class Rental_Detail_model extends CI_Model {
 		$StringSearch = (isset($Param['NameLike'])) ? "AND RentalDetail.driver_name LIKE '%" . $Param['NameLike'] . "%'"  : '';
 		$StringRental = (isset($Param['rental_id'])) ? "AND RentalDetail.rental_id = '" . $Param['rental_id'] . "'"  : '';
 		$StringCompany = (!empty($Param['company_id'])) ? "AND Rental.company_id = '" . $Param['company_id'] . "'"  : '';
+		$StringCustom = (!empty($Param['StringCustom'])) ? $Param['StringCustom']  : '';
 		$StringFilter = GetStringFilter($Param);
 		
 		$PageOffset = (isset($Param['start']) && !empty($Param['start'])) ? $Param['start'] : 0;
@@ -76,7 +77,7 @@ class Rental_Detail_model extends CI_Model {
 		
 		$SelectQuery = "
 			SELECT
-				RentalDetail.*, Driver.driver_name, Device.nopol, Rental.rental_no,
+				RentalDetail.*, Driver.driver_name, Device.device, Rental.rental_no,
 				Rental.order_date, Rental.uang_muka, Rental.total_price, Rental.rental_desc,
 				Customer.customer_name, Customer.customer_address, Customer.customer_phone,
 				RentalStatus.rental_status_name
@@ -86,7 +87,7 @@ class Rental_Detail_model extends CI_Model {
 			LEFT JOIN ".DRIVER." Driver ON Driver.driver_id = RentalDetail.driver_id
 			LEFT JOIN ".DEVICE." Device ON Device.id = RentalDetail.car_id
 			LEFT JOIN ".RENTAL_STATUS." RentalStatus ON RentalStatus.rental_status_id = RentalDetail.rental_status_id
-			WHERE 1 $StringSearch $StringRental $StringCompany $StringFilter
+			WHERE 1 $StringSearch $StringRental $StringCompany $StringCustom $StringFilter
 			ORDER BY $StringSorting
 			LIMIT $PageOffset, $PageLimit
 		";

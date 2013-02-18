@@ -4,8 +4,8 @@ class Device_model extends CI_Model {
 	function __construct() {
         parent::__construct();
 		
-		$this->Table = 'devices';
-		$this->Field = array('id', 'nopol', 'deviceid', 'idkategori', 'idpetugas', 'nolambung', 'msisdn', 'passgps', 'disabled');
+		$this->Table = DEVICE;
+		$this->Field = array('id', 'deviceid', 'device', 'msisdn', 'register_date', 'active_date', 'active');
     }
 	
 	function Update($Param) {
@@ -13,15 +13,15 @@ class Device_model extends CI_Model {
 		
 		if (empty($Param['device_id'])) {
 			$InsertQuery  = GenerateInsertQuery($this->Field, $Param, $this->Table);
-			$InsertResult = mysql_query($InsertQuery, $this->config->item('tracking_conn')) or die(mysql_error());
+			$InsertResult = mysql_query($InsertQuery) or die(mysql_error());
 			
-			$Result['device_id'] = mysql_insert_id($this->config->item('tracking_conn'));
+			$Result['device_id'] = mysql_insert_id();
 			$Result['QueryStatus'] = '1';
 			$Result['Message'] = 'Data berhasil disimpan.';
 		} else {
 			$Param['id'] = $Param['device_id'];
 			$UpdateQuery  = GenerateUpdateQuery($this->Field, $Param, $this->Table);
-			$UpdateResult = mysql_query($UpdateQuery, $this->config->item('tracking_conn')) or die(mysql_error());
+			$UpdateResult = mysql_query($UpdateQuery) or die(mysql_error());
 			
 			$Result['device_id'] = $Param['device_id'];
 			$Result['QueryStatus'] = '1';
@@ -65,13 +65,12 @@ class Device_model extends CI_Model {
 		
 		$PageOffset = (isset($Param['start']) && !empty($Param['start'])) ? $Param['start'] : 0;
 		$PageLimit = (isset($Param['limit']) && !empty($Param['limit'])) ? $Param['limit'] : 25;
-        $StringSorting = (isset($Param['sort'])) ? GetStringSorting($Param['sort']) : 'nopol ASC';
+        $StringSorting = (isset($Param['sort'])) ? GetStringSorting($Param['sort']) : 'deviceid ASC';
 		
 		$SelectQuery = "
-			SELECT Device.*, Company.company_id, Company.company_name, DeviceCategory.jeniskejadianName
+			SELECT Device.*, Company.company_id, Company.company_name
 			FROM ".DEVICE." Device
 			LEFT JOIN ".DEVICE_COMPANY." DeviceCompany ON DeviceCompany.device_id = Device.id
-			LEFT JOIN ".DEVICE_CATEGORY." DeviceCategory ON DeviceCategory.jeniskejadianId = Device.idkategori
 			LEFT JOIN ".COMPANY." Company ON Company.company_id = DeviceCompany.company_id
 			WHERE 1 $StringCompany $StringFilter
 			ORDER BY $StringSorting
@@ -126,7 +125,7 @@ class Device_model extends CI_Model {
 		
 		if (isset($Param['device_id'])) {
 			$DeleteQuery  = "DELETE FROM ".DEVICE." WHERE id = '".$Param['device_id']."' LIMIT 1";
-			$DeleteResult = mysql_query($DeleteQuery, $this->config->item('tracking_conn')) or die(mysql_error());
+			$DeleteResult = mysql_query($DeleteQuery) or die(mysql_error());
 			
 			$DeleteQuery  = "DELETE FROM ".DEVICE_COMPANY." WHERE device_id = '".$Param['device_id']."' LIMIT 1";
 			$DeleteResult = mysql_query($DeleteQuery) or die(mysql_error());
@@ -139,7 +138,7 @@ class Device_model extends CI_Model {
 	}
 	
 	function Sync($Row) {
-		$Record = StripArray($Row, array('company_id'));
+		$Record = StripArray($Row, array('company_id', 'register_date', 'active_date'));
 		$Record['device_id'] = $Record['id'];
 		
 		return $Record;

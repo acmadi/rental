@@ -6,6 +6,7 @@
 	$ArrayDevice = $this->Device_model->GetArray(array('limit' => 1000, 'company_id' => $company_id));
 	$ArrayRentalStatus = $this->Rental_Status_model->GetArray(array('limit' => 200));
 	$ArrayCarCondition = $this->Car_Condition_model->GetArray(array('limit' => 200));
+	$ArrayMonth = GetArrayMonth();
 ?>
 
 <div id="CntRental" class="row-fluid">
@@ -20,6 +21,7 @@
 				<option value="rental_no">No Sewa</option>
 				<option value="customer_name">Nama Pelanggan</option>
 			</select>
+			<button class="btn btn-large Reset" type="button"><i class="splashy-sprocket_dark"></i></button>
 			<button class="btn btn-large Search" type="submit"><i class="icon-search"></i></button>
 		</div>
 		
@@ -27,6 +29,10 @@
 	</div>
 	
 	<div class="datagrid" style="margin: 0 0 40px 0;"></div>
+	
+	<div class="btn-group">
+		<button class="btn btn-large ShowReport">Laporan</button>
+	</div>
 	
 	<div class="cnt-window hidden">
 		<div class="pad">
@@ -40,7 +46,7 @@
 				<div class="span6">
 					<div class="control-group">
 						<label for="input_rental_no" class="control-label">No Sewa</label>
-						<div class="controls"><input type="text" placeholder="No Sewa" name="rental_no" id="input_rental_no" /></div>
+						<div class="controls"><input type="text" placeholder="No Sewa" name="rental_no" id="input_rental_no" rel="twipsy" data-placement="right" data-original-title="No Sewa Rental" /></div>
 					</div>
 					<div class="control-group">
 						<label class="control-label">Pelanggan</label>
@@ -48,7 +54,7 @@
 					<div class="control-group">
 						<label class="control-label">Nama</label>
 						<div class="controls">
-							<select name="customer_id">
+							<select name="customer_id" rel="twipsy" data-placement="right" data-original-title="Nama Pelanggan">
 								<?php echo ShowOption(array('Array' => $ArrayCustomer, 'ArrayID' => 'customer_id', 'ArrayTitle' => 'customer_name')); ?>
 							</select>
 						</div>
@@ -66,7 +72,7 @@
 				<div class="span6">
 					<div class="control-group">
 						<label class="control-label">Tanggal</label>
-						<div class="controls"><input type="text" placeholder="Tanggal" name="order_date" class="datepicker"></div>
+						<div class="controls"><input type="text" placeholder="Tanggal" name="order_date" class="datepicker" rel="twipsy" data-placement="right" data-original-title="Tanggal Order"></div>
 					</div>
 				</div>
 			</div>
@@ -81,25 +87,25 @@
 				<div class="span6">
 					<div class="control-group">
 						<label for="input_rental_desc" class="control-label">Catatan</label>
-						<div class="controls"><input type="text" placeholder="Catatan" name="rental_desc" id="input_rental_desc" /></div>
+						<div class="controls"><input type="text" placeholder="Catatan" name="rental_desc" id="input_rental_desc" rel="twipsy" data-placement="right" data-original-title="Catatan Sewa" /></div>
 					</div>
 					<div class="control-group">
 						<label for="input_rental_guarantee" class="control-label">Jaminan</label>
-						<div class="controls"><input type="text" placeholder="Jaminan" name="rental_guarantee" id="input_rental_guarantee" /></div>
+						<div class="controls"><input type="text" placeholder="Jaminan" name="rental_guarantee" id="input_rental_guarantee" rel="twipsy" data-placement="right" data-original-title="Jaminan Sewa" /></div>
 					</div>
 				</div>
 				<div class="span6">
 					<div class="control-group">
 						<label for="input_total_price" class="control-label">Total Biaya</label>
-						<div class="controls"><input type="text" placeholder="Total Biaya" name="total_price" id="input_total_price" /></div>
+						<div class="controls"><input type="text" placeholder="Total Biaya" name="total_price" id="input_total_price" rel="twipsy" data-placement="right" data-original-title="Total Biaya Sewa" /></div>
 					</div>
 					<div class="control-group">
 						<label for="input_uang_muka" class="control-label">Uang Muka</label>
-						<div class="controls"><input type="text" placeholder="Uang Muka" name="uang_muka" id="input_uang_muka" /></div>
+						<div class="controls"><input type="text" placeholder="Uang Muka" name="uang_muka" id="input_uang_muka" rel="twipsy" data-placement="right" data-original-title="Uang Muka Sewa" /></div>
 					</div>
 					<div class="control-group">
 						<label for="input_sisa" class="control-label">Belum Terbayar</label>
-						<div class="controls"><input type="text" placeholder="Belum Terbayar" name="sisa" id="input_sisa" /></div>
+						<div class="controls"><input type="text" placeholder="Belum Terbayar" name="sisa" id="input_sisa" rel="twipsy" data-placement="right" data-original-title="Biaya yang belum terbayar" /></div>
 					</div>
 				</div>
 			</div>
@@ -120,17 +126,17 @@
 					<input type="hidden" name="rental_detail_id" value="0" />
 					<div class="control-group">
 						<label class="control-label" for="input_date_out">Tanggal Keluar</label>
-						<div class="controls"><input type="text" id="input_date_out" name="date_out" class="datepicker" placeholder="Tanggal Keluar" /></div>
+						<div class="controls"><input type="text" id="input_date_out" name="date_out" class="datepicker" placeholder="Tanggal Keluar" rel="twipsy" data-placement="right" data-original-title="Tanggal Keluar" /></div>
 					</div>
 					<div class="control-group">
 						<label class="control-label" for="input_rental_duration">Lama Sewa</label>
-						<div class="controls"><input type="text" id="input_rental_duration" name="rental_duration" placeholder="Lama Sewa" /></div>
+						<div class="controls"><input type="text" id="input_rental_duration" name="rental_duration" placeholder="Lama Sewa dalam Hari" rel="twipsy" data-placement="right" data-original-title="Lama Sewa dalam Hari" /></div>
 					</div>
 					<div class="control-group">
 						<label class="control-label">Mobil</label>
 						<div class="controls">
 							<select name="car_id">
-								<?php echo ShowOption(array('Array' => $ArrayDevice, 'ArrayID' => 'id', 'ArrayTitle' => 'nopol')); ?>
+								<?php echo ShowOption(array('Array' => $ArrayDevice, 'ArrayID' => 'id', 'ArrayTitle' => 'device')); ?>
 							</select>
 						</div>
 					</div>
@@ -144,15 +150,15 @@
 					</div>
 					<div class="control-group">
 						<label class="control-label" for="input_destination">Tujuan</label>
-						<div class="controls"><input type="text" id="input_destination" name="destination" placeholder="Tujuan" /></div>
+						<div class="controls"><input type="text" id="input_destination" name="destination" placeholder="Tujuan" rel="twipsy" data-placement="right" data-original-title="Tujuan" /></div>
 					</div>
 					<div class="control-group">
 						<label class="control-label" for="input_price_per_day">Harga Sewa / Hari</label>
-						<div class="controls"><input type="text" id="input_price_per_day" name="price_per_day" placeholder="Harga Sewa / Hari" /></div>
+						<div class="controls"><input type="text" id="input_price_per_day" name="price_per_day" placeholder="Harga Sewa / Hari" rel="twipsy" data-placement="right" data-original-title="Harga Sewa / Hari" /></div>
 					</div>
 					<div class="control-group">
 						<label class="control-label" for="input_date_in">Tanggal Kembali</label>
-						<div class="controls"><input type="text" disabled="disabled" id="input_date_in" name="date_in" class="datepicker" placeholder="Tanggal Kembali" /></div>
+						<div class="controls"><input type="text" disabled="disabled" id="input_date_in" name="date_in" class="datepicker" placeholder="Tanggal Kembali" rel="twipsy" data-placement="right" data-original-title="Tanggal Kembali" /></div>
 					</div>
 					<div class="control-group">
 						<label class="control-label">Status</label>
@@ -172,23 +178,23 @@
 					</div>
 					<div class="control-group">
 						<label class="control-label" for="input_driver_fee">Biaya Sopir</label>
-						<div class="controls"><input type="text" id="input_driver_fee" name="driver_fee" placeholder="Biaya Sopir" /></div>
+						<div class="controls"><input type="text" id="input_driver_fee" name="driver_fee" placeholder="Biaya Sopir" rel="twipsy" data-placement="right" data-original-title="Biaya Sopir" /></div>
 					</div>
 					<div class="control-group">
 						<label class="control-label" for="input_driver_duration">Durasi Sopir</label>
-						<div class="controls"><input type="text" id="input_driver_duration" name="driver_duration" placeholder="Durasi Sopir" /></div>
+						<div class="controls"><input type="text" id="input_driver_duration" name="driver_duration" placeholder="Durasi Sopir" rel="twipsy" data-placement="right" data-original-title="Durasi Sopir" /></div>
 					</div>
 					<div class="control-group">
 						<label class="control-label" for="input_car_condition_out">Kondisi Mobil Keluar</label>
-						<div class="controls"><input type="text" id="input_car_condition_out" name="car_condition_out" placeholder="Kondisi Mobil Keluar" /></div>
+						<div class="controls"><input type="text" id="input_car_condition_out" name="car_condition_out" placeholder="Kondisi Mobil Keluar" rel="twipsy" data-placement="right" data-original-title="Kondisi Mobil Keluar" /></div>
 					</div>
 					<div class="control-group">
 						<label class="control-label" for="input_car_condition_in">Kondisi Mobil Kembali</label>
-						<div class="controls"><input type="text" id="input_car_condition_in" name="car_condition_in" placeholder="Kondisi Mobil Kembali" /></div>
+						<div class="controls"><input type="text" id="input_car_condition_in" name="car_condition_in" placeholder="Kondisi Mobil Kembali" rel="twipsy" data-placement="right" data-original-title="Kondisi Mobil Kembali" /></div>
 					</div>
 					<div class="control-group">
 						<label class="control-label" for="input_guaranty">Jaminan</label>
-						<div class="controls"><input type="text" id="input_guaranty" name="guaranty" placeholder="Jaminan" /></div>
+						<div class="controls"><input type="text" id="input_guaranty" name="guaranty" placeholder="Jaminan" rel="twipsy" data-placement="right" data-original-title="Jaminan" /></div>
 					</div>
 				</form>
 			</div>
@@ -196,6 +202,33 @@
 				<a href="#" class="btn btn-large WindowRentalDetailClose">Cancel</a>
 				<a href="#" class="btn btn-large WindowRentalDetailSave btn-primary">OK</a>
 			</div>
+		</div>
+	</div>
+	
+	<div id="WindowReport" class="modal modal-big hide fade" tabindex="-1" role="dialog" aria-labelledby="windowTitleLabel" aria-hidden="true">
+		<div class="modal-header">
+			<a href="#" class="close" data-dismiss="modal">&times;</a>
+			<h3>Form Laporan</h3>
+		</div>
+		<div class="modal-body">
+			<form class="form-horizontal">
+				<div class="control-group">
+					<label class="control-label">Bulan</label>
+					<div class="controls">
+						<select name="month">
+							<?php echo ShowOption(array('Array' => $ArrayMonth)); ?>
+						</select>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="input_year">Tahun</label>
+					<div class="controls"><input type="text" id="input_year" name="year" placeholder="Tahun" value="<?php echo date("Y"); ?>" /></div>
+				</div>
+			</form>
+		</div>
+		<div class="modal-footer">
+			<a href="#" class="btn btn-large WindowReportClose">Cancel</a>
+			<a href="#" class="btn btn-large WindowReportSave btn-primary">Ok</a>
 		</div>
 	</div>
 </div>
@@ -322,6 +355,7 @@ $(document).ready(function() {
 				}).done(function( RawResult ) {
 					eval('var Result = ' + RawResult);
 					$('.form-rental input[name="rental_no"]').val(Result.config_content);
+					$('.form-rental input[name="order_date"]').val(Func.GetStringFromDate(new Date()));
 				});
 			}
 			
@@ -334,7 +368,6 @@ $(document).ready(function() {
 		},
 		InitEditor: function() {
 			// Set Listeners
-			$('.form-rental .datepicker').datepicker({ format: DATE_FORMAT });
 			$('.form-rental input[name="date_out"]').blur(function() { Local.SetDateIn() });
 			$('.form-rental input[name="rental_duration"]').blur(function() { Local.SetDateIn() });
 			$('.form-rental select[name="customer_id"]').change(function() {
@@ -351,30 +384,15 @@ $(document).ready(function() {
 					$('.form-rental input[name="customer_phone"]').val(Result.customer_phone);
 				});
 			});
-			$('.form-rental .pad form').validate({
-				onkeyup: false, errorClass: 'error', validClass: 'valid',
-				highlight: function(element) { $(element).closest('div').addClass("f_error"); },
-				unhighlight: function(element) { $(element).closest('div').removeClass("f_error"); },
-				errorPlacement: function(error, element) { $(element).closest('div').append(error); },
-				rules: {
-					rental_no: { required: true },
-					order_date: { required: true },
-					customer_id: { required: true }
-				}
+			
+			// Init Form
+			Func.InitForm({
+				Container: '.form-rental .pad',
+				rule: { rental_no: { required: true }, order_date: { required: true }, customer_id: { required: true } }
 			});
-			$('.form-rental .WindowRentalDetail form').validate({
-				onkeyup: false, errorClass: 'error', validClass: 'valid',
-				highlight: function(element) { $(element).closest('div').addClass("f_error"); },
-				unhighlight: function(element) { $(element).closest('div').removeClass("f_error"); },
-				errorPlacement: function(error, element) { $(element).closest('div').append(error); },
-				rules: {
-					date_out: { required: true },
-					rental_duration: { required: true },
-					car_id: { required: true },
-					driver_id: { required: true },
-					destination: { required: true },
-					price_per_day: { required: true }
-				}
+			Func.InitForm({
+				Container: '.form-rental .WindowRentalDetail',
+				rule: { date_out: { required: true }, rental_duration: { required: true }, car_id: { required: true }, driver_id: { required: true }, destination: { required: true }, price_per_day: { required: true } }
 			});
 			
 			// Form Entry Master
@@ -479,6 +497,33 @@ $(document).ready(function() {
 	// Form Entry Rental
 	$('#CntRental .WindowRentalAdd').click(function() {
 		Local.ShowEditor({});
+	});
+	
+	// Report
+	$('#CntRental .ShowReport').click(function() {
+		$('#WindowReport').modal();
+	});
+	$('#CntRental .WindowReportSave').click(function() {
+		if (! $('#WindowReport form').valid()) {
+			return;
+		}
+		
+		var month = $('select[name="month"]').val();
+		var year = $('input[name="year"]').val();
+		window.open(Web.HOST + '/index.php/rental/view/keuangan/' + year + '/' + month);
+	});
+	$('#CntRental .WindowReportClose').click(function() {
+		$('#WindowReport').modal('hide');
+	});
+	$('#WindowReport form').validate({
+		onkeyup: false, errorClass: 'error', validClass: 'valid',
+		highlight: function(element) { $(element).closest('div').addClass("f_error"); },
+		unhighlight: function(element) { $(element).closest('div').removeClass("f_error"); },
+		errorPlacement: function(error, element) { $(element).closest('div').append(error); },
+		rules: {
+			month: { required: true },
+			year: { required: true }
+		}
 	});
 	
 	// Load Feature Grid

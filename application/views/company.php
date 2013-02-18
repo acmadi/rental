@@ -11,6 +11,7 @@
 				<option value="company_address">Alamat</option>
 				<option value="company_phone">Telepon</option>
 			</select>
+			<button class="btn btn-large Reset" type="button"><i class="splashy-sprocket_dark"></i></button>
 			<button class="btn btn-large Search" type="submit"><i class="icon-search"></i></button>
 		</div>
 		
@@ -29,15 +30,15 @@
 				<input type="hidden" name="company_id" value="0" />
 				<div class="control-group">
 					<label class="control-label" for="input_company_name">Nama</label>
-					<div class="controls"><input type="text" id="input_company_name" name="company_name" placeholder="Nama" /></div>
+					<div class="controls"><input type="text" id="input_company_name" name="company_name" placeholder="Nama" rel="twipsy" data-placement="right" data-original-title="Nama Perusahaan" /></div>
 				</div>
 				<div class="control-group">
 					<label class="control-label" for="input_company_address">Alamat</label>
-					<div class="controls"><textarea id="input_company_address" name="company_address" placeholder="Alamat" rows="3" cols="30"></textarea></div>
+					<div class="controls"><textarea id="input_company_address" name="company_address" placeholder="Alamat" rows="3" cols="30" rel="twipsy" data-placement="right" data-original-title="Alamat Perusahaan"></textarea></div>
 				</div>
 				<div class="control-group">
 					<label class="control-label" for="input_company_phone">Telepon</label>
-					<div class="controls"><input type="text" id="input_company_phone" name="company_phone" placeholder="Telepon" /></div>
+					<div class="controls"><input type="text" id="input_company_phone" name="company_phone" placeholder="Telepon" rel="twipsy" data-placement="right" data-original-title="Telepon Perusahaan" /></div>
 				</div>
 				<div class="hidden"><input type="submit" name="Submit" value="Submit" /></div>
 			</form>
@@ -135,16 +136,9 @@ $(document).ready(function() {
 	$('#CntCompany .WindowCompanyClose').click(function() {
 		$('#WindowCompany').modal('hide');
 	});
-	$('#WindowCompany form').validate({
-		onkeyup: false, errorClass: 'error', validClass: 'valid',
-		highlight: function(element) { $(element).closest('div').addClass("f_error"); },
-		unhighlight: function(element) { $(element).closest('div').removeClass("f_error"); },
-		errorPlacement: function(error, element) { $(element).closest('div').append(error); },
-		rules: {
-			company_name: { required: true },
-			company_address: { required: true },
-			company_phone: { required: true }
-		}
+	Func.InitForm({
+		Container: '#WindowCompany',
+		rule: { company_name: { required: true }, company_address: { required: true }, company_phone: { required: true } }
 	});
 	
 	// Load Feature Grid

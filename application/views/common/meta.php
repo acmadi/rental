@@ -9,8 +9,8 @@
 	<link rel="stylesheet" href="<?php echo $this->config->item('base_url'); ?>/static/img/splashy/splashy.css" />
 	
 	<!--
-	<link rel="stylesheet" href="<?php echo $this->config->item('base_url'); ?>/static/lib/jBreadcrumbs/css/BreadCrumb.css" />
 	<link rel="stylesheet" href="<?php echo $this->config->item('base_url'); ?>/static/lib/qtip2/jquery.qtip.min.css" />
+	<link rel="stylesheet" href="<?php echo $this->config->item('base_url'); ?>/static/lib/jBreadcrumbs/css/BreadCrumb.css" />
 	<link rel="stylesheet" href="<?php echo $this->config->item('base_url'); ?>/static/lib/sticky/sticky.css" />
 	<link rel="stylesheet" href="<?php echo $this->config->item('base_url'); ?>/static/lib/colorbox/colorbox.css" />
 	-->

@@ -16,6 +16,7 @@
 				<option value="msisdn">HP</option>
 				<option value="company_name">Perusahaan</option>
 			</select>
+			<button class="btn btn-large Reset" type="button"><i class="splashy-sprocket_dark"></i></button>
 			<button class="btn btn-large Search" type="submit"><i class="icon-search"></i></button>
 		</div>
 		
@@ -34,32 +35,32 @@
 				<input type="hidden" name="user_id" value="0" />
 				<div class="control-group">
 					<label class="control-label" for="input_username">Username</label>
-					<div class="controls"><input type="text" id="input_username" name="username" placeholder="Username" /></div>
+					<div class="controls"><input type="text" id="input_username" name="username" placeholder="Username" rel="twipsy" data-placement="right" data-original-title="Username" /></div>
 				</div>
 				<div class="control-group">
 					<label class="control-label" for="input_name">Nama</label>
-					<div class="controls"><input type="text" id="input_name" name="name" placeholder="Nama" /></div>
+					<div class="controls"><input type="text" id="input_name" name="name" placeholder="Nama" rel="twipsy" data-placement="right" data-original-title="Nama Lengkap Pengguna" /></div>
 				</div>
 				<div class="control-group">
 					<label class="control-label" for="input_password">Password</label>
-					<div class="controls"><input type="password" id="input_password" name="password" placeholder="Password" /></div>
+					<div class="controls"><input type="password" id="input_password" name="password" placeholder="Password" rel="twipsy" data-placement="right" data-original-title="Password" /></div>
 				</div>
 				<div class="control-group">
 					<label class="control-label" for="input_password_confirm">Password Konfirmasi</label>
-					<div class="controls"><input type="password" id="input_password_confirm" name="password_confirm" placeholder="Password Konfirmasi" /></div>
+					<div class="controls"><input type="password" id="input_password_confirm" name="password_confirm" placeholder="Password Konfirmasi" rel="twipsy" data-placement="right" data-original-title="Password Konfirmasi" /></div>
 				</div>
 				<div class="control-group">
 					<label class="control-label" for="input_email">Email</label>
-					<div class="controls"><input type="text" id="input_email" name="email" placeholder="Email" /></div>
+					<div class="controls"><input type="text" id="input_email" name="email" placeholder="Email" rel="twipsy" data-placement="right" data-original-title="Email Pengguna" /></div>
 				</div>
 				<div class="control-group">
 					<label class="control-label" for="input_msisdn">Telepon</label>
-					<div class="controls"><input type="text" id="input_msisdn" name="msisdn" placeholder="Telepon" /></div>
+					<div class="controls"><input type="text" id="input_msisdn" name="msisdn" placeholder="Telepon" rel="twipsy" data-placement="right" data-original-title="Telepon" /></div>
 				</div>
 				<div class="control-group">
 					<label class="control-label">Perusahaan</label>
 					<div class="controls">
-						<select name="company_id">
+						<select name="company_id" rel="twipsy" data-placement="right" data-original-title="Nama Perusahaan">
 							<?php echo ShowOption(array('Array' => $ArrayCompany, 'ArrayID' => 'company_id', 'ArrayTitle' => 'company_name')); ?>
 						</select>
 					</div>
@@ -182,19 +183,9 @@ $(document).ready(function() {
 	$('#CntUser .WindowUserClose').click(function() {
 		$('#WindowUser').modal('hide');
 	});
-	$('#WindowUser form').validate({
-		onkeyup: false, errorClass: 'error', validClass: 'valid',
-		highlight: function(element) { $(element).closest('div').addClass("f_error"); },
-		unhighlight: function(element) { $(element).closest('div').removeClass("f_error"); },
-		errorPlacement: function(error, element) { $(element).closest('div').append(error); },
-		rules: {
-			name: { required: true },
-			username: { required: true },
-			email: { required: true },
-			msisdn: { required: true },
-			password: { first_user: true },
-			password_confirm: { password_confirm: true }
-		}
+	Func.InitForm({
+		Container: '#WindowUser',
+		rule: { name: { required: true }, username: { required: true }, email: { required: true }, msisdn: { required: true }, password: { first_user: true }, password_confirm: { password_confirm: true } }
 	});
 	
 	// Load Feature Grid

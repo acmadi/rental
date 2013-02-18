@@ -53,17 +53,18 @@ class Rental_model extends CI_Model {
 		$Array = array();
 		$StringSearch = (isset($Param['NameLike'])) ? "AND Rental.rental_name LIKE '%" . $Param['NameLike'] . "%'"  : '';
 		$StringCompany = (!empty($Param['company_id'])) ? "AND Rental.company_id = '" . $Param['company_id'] . "'"  : '';
+		$StringCustom = (!empty($Param['StringCustom'])) ? $Param['StringCustom']  : '';
 		$StringFilter = GetStringFilter($Param);
 		
 		$PageOffset = (isset($Param['start']) && !empty($Param['start'])) ? $Param['start'] : 0;
 		$PageLimit = (isset($Param['limit']) && !empty($Param['limit'])) ? $Param['limit'] : 25;
-        $StringSorting = (isset($Param['sort'])) ? GetStringSorting($Param['sort']) : 'rental_name ASC';
+        $StringSorting = (isset($Param['sort'])) ? GetStringSorting($Param['sort']) : 'rental_no ASC';
 		
 		$SelectQuery = "
 			SELECT Rental.*, Customer.customer_name, Customer.customer_address, Customer.customer_phone
 			FROM ".RENTAL." Rental
 			LEFT JOIN ".CUSTOMER." Customer ON Customer.customer_id = Rental.customer_id
-			WHERE 1 $StringSearch $StringCompany $StringFilter
+			WHERE 1 $StringSearch $StringCompany $StringCustom $StringFilter
 			ORDER BY $StringSorting
 			LIMIT $PageOffset, $PageLimit
 		";

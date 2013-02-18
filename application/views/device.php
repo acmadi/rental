@@ -1,7 +1,5 @@
 <?php
 	$ArrayCompany = $this->Company_model->GetArray(array('limit' => 1000));
-	$ArrayOfficer = $this->Officer_model->GetArray(array('limit' => 1000));
-	$ArrayDeviceCategory = $this->Device_Category_model->GetArray(array('limit' => 1000));
 ?>
 <div id="CntDevice" class="row-fluid">
 	<input type="hidden" name="PAGE_COUNT" value="<?php echo PAGE_COUNT; ?>" />
@@ -12,11 +10,12 @@
 		<div class="input-append right" style="float: right;">
 			<input type="text" placeholder="Cari..." size="16" class="input-large" name="namelike">
 			<select class="select-large GridFilter">
-				<option value="nopol">No Polisi</option>
 				<option value="deviceid">Device ID</option>
-				<option value="nolambung">No Lambung</option>
+				<option value="device">Nama Alat</option>
 				<option value="msisdn">Msisdn</option>
+				<option value="company_name">Perusahaan</option>
 			</select>
+			<button class="btn btn-large Reset" type="button"><i class="splashy-sprocket_dark"></i></button>
 			<button class="btn btn-large Search" type="submit"><i class="icon-search"></i></button>
 		</div>
 		
@@ -34,45 +33,21 @@
 			<form class="form-horizontal">
 				<input type="hidden" name="device_id" value="0" />
 				<div class="control-group">
-					<label class="control-label" for="input_nopol">No Polisi</label>
-					<div class="controls"><input type="text" id="input_nopol" name="nopol" placeholder="No Polisi" /></div>
-				</div>
-				<div class="control-group">
 					<label class="control-label" for="input_deviceid">ID Alat</label>
-					<div class="controls"><input type="text" id="input_deviceid" name="deviceid" placeholder="ID Alat" /></div>
+					<div class="controls"><input type="text" id="input_deviceid" name="deviceid" placeholder="ID Alat" rel="twipsy" data-placement="right" data-original-title="ID Alat / Device" /></div>
 				</div>
 				<div class="control-group">
-					<label class="control-label">Kategori</label>
-					<div class="controls">
-						<select name="idkategori">
-							<?php echo ShowOption(array('Array' => $ArrayDeviceCategory, 'ArrayID' => 'jeniskejadianId', 'ArrayTitle' => 'jeniskejadianName')); ?>
-						</select>
-					</div>
-				</div>
-				<div class="control-group">
-					<label class="control-label">Petugas</label>
-					<div class="controls">
-						<select name="idpetugas">
-							<?php echo ShowOption(array('Array' => $ArrayOfficer, 'ArrayID' => 'id', 'ArrayTitle' => 'nama')); ?>
-						</select>
-					</div>
-				</div>
-				<div class="control-group">
-					<label class="control-label" for="input_nolambung">No Lambung</label>
-					<div class="controls"><input type="text" id="input_nolambung" name="nolambung" placeholder="No Lambung" /></div>
+					<label class="control-label" for="input_device">Nama Alat</label>
+					<div class="controls"><input type="text" id="input_device" name="device" placeholder="Nama Alat" rel="twipsy" data-placement="right" data-original-title="Nama Alat / Device" /></div>
 				</div>
 				<div class="control-group">
 					<label class="control-label" for="input_msisdn">Msisdn</label>
-					<div class="controls"><input type="text" id="input_msisdn" name="msisdn" placeholder="Msisdn" /></div>
-				</div>
-				<div class="control-group">
-					<label class="control-label" for="input_passgps">Password GPS</label>
-					<div class="controls"><input type="text" id="input_passgps" name="passgps" placeholder="Password GPS" /></div>
+					<div class="controls"><input type="text" id="input_msisdn" name="msisdn" placeholder="Msisdn" rel="twipsy" data-placement="right" data-original-title="Msisdn Alat / Device " /></div>
 				</div>
 				<div class="control-group">
 					<label class="control-label">Perusahaan</label>
 					<div class="controls">
-						<select name="company_id">
+						<select name="company_id" rel="twipsy" data-placement="right" data-original-title="Nama Perusahaan">
 							<?php echo ShowOption(array('Array' => $ArrayCompany, 'ArrayID' => 'company_id', 'ArrayTitle' => 'company_name')); ?>
 						</select>
 					</div>
@@ -80,7 +55,7 @@
 				<div class="control-group">
 					<div class="controls">
 						<label class="checkbox">
-							<input type="checkbox" name="disabled" value="1" /> Tidak Aktif
+							<input type="checkbox" name="active" value="1" /> Aktif
 						</label>
 					</div>
 				</div>
@@ -105,7 +80,7 @@ $(document).ready(function() {
 			var GridParam = {
 				start: (Param.PageNo - 1) * PageCount,
 				limit: PageCount, page: Param.PageNo, filter: PageFilter,
-				sort: '[{"property":"nopol","direction":"ASC"}]'
+				sort: '[{"property":"deviceid","direction":"ASC"}]'
 			}
 			
 			$.ajax({
@@ -121,15 +96,11 @@ $(document).ready(function() {
 				eval('var Record = ' + RawRecord);
 				
 				$('#WindowDevice input[name="device_id"]').val(Record.device_id);
-				$('#WindowDevice input[name="nopol"]').val(Record.nopol);
+				$('#WindowDevice input[name="device"]').val(Record.device);
 				$('#WindowDevice input[name="deviceid"]').val(Record.deviceid);
-				$('#WindowDevice input[name="nolambung"]').val(Record.nolambung);
 				$('#WindowDevice input[name="msisdn"]').val(Record.msisdn);
-				$('#WindowDevice input[name="passgps"]').val(Record.passgps);
-				$('#WindowDevice select[name="idkategori"]').val(Record.idkategori);
-				$('#WindowDevice select[name="idpetugas"]').val(Record.idpetugas);
 				$('#WindowDevice select[name="company_id"]').val((Record.company_id == null) ? '' : Record.company_id);
-				$('#WindowDevice input[name="disabled"]').attr('checked', (Record.disabled == 1));
+				$('#WindowDevice input[name="active"]').attr('checked', (Record.active == 1));
 				$('#WindowDevice').modal();
 			});
 			$('#CntDevice .WindowDeviceDelete').click(function() {
@@ -186,20 +157,12 @@ $(document).ready(function() {
 	$('#CntDevice .WindowDeviceClose').click(function() {
 		$('#WindowDevice').modal('hide');
 	});
-	$('#WindowDevice form').validate({
-		onkeyup: false, errorClass: 'error', validClass: 'valid',
-		highlight: function(element) { $(element).closest('div').addClass("f_error"); },
-		unhighlight: function(element) { $(element).closest('div').removeClass("f_error"); },
-		errorPlacement: function(error, element) { $(element).closest('div').append(error); },
-		rules: {
-			nopol: { required: true },
-			deviceid: { required: true },
-			msisdn: { required: true },
-			passgps: { required: true }
-		}
+	Func.InitForm({
+		Container: '#WindowDevice',
+		rule: { device: { required: true }, deviceid: { required: true }, msisdn: { required: true } }
 	});
 	
 	// Load Feature Grid
-	Func.Feature({ Container: 'CntDevice', FirstValue: 'nopol', LoadGrid: Local.LoadGrid });
+	Func.Feature({ Container: 'CntDevice', FirstValue: 'deviceid', LoadGrid: Local.LoadGrid });
 });
 </script>

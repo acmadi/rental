@@ -6,26 +6,26 @@
 <table class="table table-bordered table-striped">
 	<thead>
 		<tr>
-			<th>No Polisi</th>
-			<th>ID Device</th>
-			<th>Kategori</th>
-			<th>No Lambung</th>
+			<th>ID Alat</th>
+			<th>Nama Alat</th>
 			<th>Msisdn</th>
+			<th>Tanggal Register</th>
+			<th>Tanggal Aktif</th>
 			<th>Perusahaan</th>
-			<th>Disabled</th>
+			<th>Aktif</th>
 			<th style="text-align: center; width: 140px;">Aksi</th>
 		</tr>
 	</thead>
 	<tbody>
 		<?php foreach ($result['rows'] as $Array) { ?>
 			<tr>
-				<td><?php echo $Array['nopol']; ?></td>
 				<td><?php echo $Array['deviceid']; ?></td>
-				<td><?php echo $Array['jeniskejadianName']; ?></td>
-				<td><?php echo $Array['nolambung']; ?></td>
+				<td><?php echo $Array['device']; ?></td>
 				<td><?php echo $Array['msisdn']; ?></td>
+				<td><?php echo $Array['register_date']; ?></td>
+				<td><?php echo $Array['active_date']; ?></td>
 				<td><?php echo $Array['company_name']; ?></td>
-				<td><?php echo ($Array['disabled'] == 1) ? 'Ya' : 'Tidak'; ?></td>
+				<td><?php echo ($Array['active'] == 1) ? 'Ya' : 'Tidak'; ?></td>
 				<td>
 					<a class="btn-edit WindowDeviceEdit"></a>
 					<a class="btn-del WindowDeviceDelete"></a>

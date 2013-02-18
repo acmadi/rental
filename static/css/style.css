@@ -792,7 +792,7 @@
 .cnt-body { padding: 50px 0 0 0; }
 .cnt-left { float: left; width: 25%; }
 .cnt-left .pad { padding: 0 10px; }
-.cnt-right { float: left; width: 75%; }
+.cnt-right { float: left; width: 75%; padding: 0 0 20px 0; }
 .cnt-right .pad { margin: 0 10px 0 0; padding: 10px; border: 1px solid #e5e5e5; border-radius: 4px; }
 
 /* LOGIN */
@@ -829,6 +829,7 @@
 .nav-tabs > li .close { margin: -2px 0 0 10px; font-size: 18px; }
 
 /*	BUTTON */
+.input-append .splashy-sprocket_dark { margin: 3px 0 0 0; }
 .btn-edit { background: url('../img/btn_edit.png'); cursor: pointer; margin: 0 10px; padding: 16px 24px; }
 .btn-del { background: url('../img/btn_del.png'); cursor: pointer; margin: 0 10px; padding: 16px 24px; }
 .btn-report { background: url('../img/btn_report.png'); cursor: pointer; margin: 0 10px; padding: 16px 24px; }

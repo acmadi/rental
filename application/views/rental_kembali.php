@@ -13,6 +13,7 @@
 				<option value="rental_no">No Sewa</option>
 				<option value="customer_name">Nama Pelanggan</option>
 			</select>
+			<button class="btn btn-large Reset" type="button"><i class="splashy-sprocket_dark"></i></button>
 			<button class="btn btn-large Search" type="submit"><i class="icon-search"></i></button>
 		</div>
 	</div>

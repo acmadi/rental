@@ -13,6 +13,7 @@
 				<option value="roster_time">Waktu</option>
 				<option value="roster_dest">Tujuan</option>
 			</select>
+			<button class="btn btn-large Reset" type="button"><i class="splashy-sprocket_dark"></i></button>
 			<button class="btn btn-large Search" type="submit"><i class="icon-search"></i></button>
 		</div>
 		
@@ -39,19 +40,19 @@
 				</div>
 				<div class="control-group">
 					<label class="control-label" for="input_roster_time">Waktu</label>
-					<div class="controls"><input type="text" id="input_roster_time" name="roster_time" placeholder="Waktu" /></div>
+					<div class="controls"><input type="text" id="input_roster_time" name="roster_time" placeholder="Waktu" rel="twipsy" data-placement="right" data-original-title="Waktu Roster" /></div>
 				</div>
 				<div class="control-group">
 					<label class="control-label" for="input_roster_dest">Tujuan</label>
-					<div class="controls"><input type="text" id="input_roster_dest" name="roster_dest" placeholder="Tujuan" /></div>
+					<div class="controls"><input type="text" id="input_roster_dest" name="roster_dest" placeholder="Tujuan" rel="twipsy" data-placement="right" data-original-title="Tujuan Roster" /></div>
 				</div>
 				<div class="control-group">
 					<label class="control-label" for="input_roster_capacity">Kapasitas</label>
-					<div class="controls"><input type="text" id="input_roster_capacity" name="roster_capacity" placeholder="Kapasitas" /></div>
+					<div class="controls"><input type="text" id="input_roster_capacity" name="roster_capacity" placeholder="Kapasitas" rel="twipsy" data-placement="right" data-original-title="Kapasitas Roster" /></div>
 				</div>
 				<div class="control-group">
 					<label class="control-label" for="input_roster_price">Harga</label>
-					<div class="controls"><input type="text" id="input_roster_price" name="roster_price" placeholder="Harga" /></div>
+					<div class="controls"><input type="text" id="input_roster_price" name="roster_price" placeholder="Harga" rel="twipsy" data-placement="right" data-original-title="Harga Roster / Orang" /></div>
 				</div>
 				<div class="control-group">
 					<div class="controls">
@@ -183,16 +184,9 @@ $(document).ready(function() {
 	$('#CntRoster .WindowRosterClose').click(function() {
 		$('#WindowRoster').modal('hide');
 	});
-	$('#WindowRoster form').validate({
-		onkeyup: false, errorClass: 'error', validClass: 'valid',
-		highlight: function(element) { $(element).closest('div').addClass("f_error"); },
-		unhighlight: function(element) { $(element).closest('div').removeClass("f_error"); },
-		errorPlacement: function(error, element) { $(element).closest('div').append(error); },
-		rules: {
-			roster_day: { required: true },
-			roster_time: { required: true },
-			roster_dest: { required: true }
-		}
+	Func.InitForm({
+		Container: '#WindowRoster',
+		rule: { roster_day: { required: true }, roster_time: { required: true }, roster_dest: { required: true } }
 	});
 	
 	// Load Feature Grid

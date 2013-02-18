@@ -5,12 +5,13 @@
 	
 	<div class="btn-group" style="width: 100%;">
 		<div class="input-append right" style="float: right;">
-			<input type="text" placeholder="Cari..." size="16" class="input-large" name="namelike" autocomplete="off">
+			<input type="text" placeholder="Cari..." size="16" class="input-large" name="namelike" />
 			<select class="select-large GridFilter">
 				<option value="driver_name">Nama</option>
 				<option value="driver_address">Alamat</option>
 			</select>
-			<button class="btn btn-large Search" type="submit"><i class="icon-search"></i></button>
+			<button class="btn btn-large Reset" type="button"><i class="splashy-sprocket_dark"></i></button>
+			<button class="btn btn-large Search" type="button"><i class="icon-search"></i></button>
 		</div>
 		
 		<button class="btn btn-large WindowDriverAdd">Tambah Sopir</button>
@@ -28,23 +29,23 @@
 				<input type="hidden" name="driver_id" value="0" />
 				<div class="control-group">
 					<label class="control-label" for="input_driver_name">Nama</label>
-					<div class="controls"><input type="text" id="input_driver_name" name="driver_name" placeholder="Nama" /></div>
+					<div class="controls"><input type="text" id="input_driver_name" name="driver_name" placeholder="Nama" rel="twipsy" data-placement="right" data-original-title="Nama Lengkap Sopir" /></div>
 				</div>
 				<div class="control-group">
 					<label class="control-label" for="input_driver_address">Alamat</label>
-					<div class="controls"><input type="text" id="input_driver_address" name="driver_address" placeholder="Alamat" /></div>
+					<div class="controls"><input type="text" id="input_driver_address" name="driver_address" placeholder="Alamat" rel="twipsy" data-placement="right" data-original-title="Alamat Sopir" /></div>
 				</div>
 				<div class="control-group">
 					<label class="control-label" for="input_driver_phone">Telepon</label>
-					<div class="controls"><input type="text" id="input_driver_phone" name="driver_phone" placeholder="Telepon" /></div>
+					<div class="controls"><input type="text" id="input_driver_phone" name="driver_phone" placeholder="Telepon" rel="twipsy" data-placement="right" data-original-title="Telepon Sopir" /></div>
 				</div>
 				<div class="control-group">
 					<label class="control-label" for="input_driver_mobile">HP</label>
-					<div class="controls"><input type="text" id="input_driver_mobile" name="driver_mobile" placeholder="HP" /></div>
+					<div class="controls"><input type="text" id="input_driver_mobile" name="driver_mobile" placeholder="HP" rel="twipsy" data-placement="right" data-original-title="HP Sopir" /></div>
 				</div>
 				<div class="control-group">
 					<label class="control-label" for="input_driver_fee">Biaya</label>
-					<div class="controls"><input type="text" id="input_driver_fee" name="driver_fee" placeholder="Biaya" /></div>
+					<div class="controls"><input type="text" id="input_driver_fee" name="driver_fee" placeholder="Biaya" rel="twipsy" data-placement="right" data-original-title="Biaya Sopir" /></div>
 				</div>
 				<div class="hidden"><input type="submit" name="Submit" value="Submit" /></div>
 			</form>
@@ -144,16 +145,9 @@ $(document).ready(function() {
 	$('#CntDriver .WindowDriverClose').click(function() {
 		$('#WindowDriver').modal('hide');
 	});
-	$('#WindowDriver form').validate({
-		onkeyup: false, errorClass: 'error', validClass: 'valid',
-		highlight: function(element) { $(element).closest('div').addClass("f_error"); },
-		unhighlight: function(element) { $(element).closest('div').removeClass("f_error"); },
-		errorPlacement: function(error, element) { $(element).closest('div').append(error); },
-		rules: {
-			driver_name: { required: true },
-			driver_address: { required: true },
-			driver_phone: { required: true }
-		}
+	Func.InitForm({
+		Container: '#WindowDriver',
+		rule: { driver_name: { required: true }, driver_address: { required: true }, driver_phone: { required: true } }
 	});
 	
 	// Load Feature Grid

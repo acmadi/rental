@@ -39,4 +39,8 @@ class rental extends CI_Controller {
     function grid($Page = 'rental') {
         $this->load->view( 'grid/' . $Page );
     }
+	
+	function view($PageView = 'keuangan') {
+		$this->load->view( 'report/' . $PageView );
+	}
 }

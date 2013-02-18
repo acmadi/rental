@@ -56,9 +56,13 @@ if (! function_exists('ShowOption')) {
 			$Content .= '<option value="0" ' . $Selected . '>Semua<option>';
 		}
 		
-		foreach ($Param['Array'] as $Array) {
-			$Selected = ($Param['Selected'] == $Array[$Param['ArrayID']]) ? 'selected' : '';
-			$Content .= '<option value="'.$Array[$Param['ArrayID']].'" '.$Selected.'>'.$Array[$Param['ArrayTitle']].'</option>';
+		foreach ($Param['Array'] as $Key => $Array) {
+			if (is_array($Array)) {
+				$Selected = ($Param['Selected'] == $Array[$Param['ArrayID']]) ? 'selected' : '';
+				$Content .= '<option value="'.$Array[$Param['ArrayID']].'" '.$Selected.'>'.$Array[$Param['ArrayTitle']].'</option>';
+			} else {
+				$Content .= '<option value="'.$Key.'">'.$Array.'</option>';
+			}
 		}
 		
         return $Content;

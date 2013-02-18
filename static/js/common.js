@@ -316,6 +316,16 @@ var Func = {
 			
 			p.LastValue = NextValue;
 		});
+		$('#' + p.Container + ' .Reset').click(function() {
+			p.FilterObject = {};
+			$('#' + p.Container + ' input[name="namelike"]').val('');
+			$('#' + p.Container + ' .GridFilter').change();
+			var StringFilter = Func.GetStringFilter(p.FilterObject);
+			
+			$('#' + p.Container + ' input[name="PAGE_ACTIVE"]').val(1);
+			$('#' + p.Container + ' input[name="PAGE_FILTER"]').val(StringFilter);
+			p.LoadGrid({});
+		});
 		$('#' + p.Container + ' .Search').click(function() {
 			$('#' + p.Container + ' .GridFilter').change();
 			var StringFilter = Func.GetStringFilter(p.FilterObject);
@@ -347,8 +357,80 @@ var Func = {
 				}
 			});
 		});
+	},
+	InitForm: function(p) {
+		// Date Picker
+		$(p.Container + ' .datepicker').datepicker({ format: DATE_FORMAT });
+		
+		// Validation
+		$(p.Container + ' form').validate({
+			onkeyup: false, errorClass: 'error', validClass: 'valid',
+			highlight: function(element) { $(element).closest('div').addClass("f_error"); },
+			unhighlight: function(element) { $(element).closest('div').removeClass("f_error"); },
+			errorPlacement: function(error, element) { $(element).closest('div').append(error); },
+			rules: p.rule
+		});
+		
+		// Twipsy
+		$(p.Container + ' input[rel=twipsy], ' + p.Container + ' select[rel=twipsy], ' + p.Container + ' textarea[rel=twipsy]').focus(function() { $(this).twipsy('show'); });
+		$(p.Container + ' input[rel=twipsy], ' + p.Container + ' select[rel=twipsy], ' + p.Container + ' textarea[rel=twipsy]').blur(function() { $(this).twipsy('hide'); });
 	}
 }
+
+/*
+var gebo_tips = {
+	init: function() {
+		if (!is_touch_device()) {
+			var shared = {
+			style		: {
+					classes: 'ui-tooltip-shadow ui-tooltip-tipsy'
+				},
+				show		: {
+					delay: 100,
+					event: 'mouseenter focus'
+				},
+				hide		: { delay: 0 }
+			};
+			if($('.ttip_b').length) {
+				$('.ttip_b').qtip( $.extend({}, shared, {
+					position	: {
+						my		: 'top center',
+						at		: 'bottom center',
+						viewport: $(window)
+					}
+				}));
+			}
+			if($('.ttip_t').length) {
+				$('.ttip_t').qtip( $.extend({}, shared, {
+					position: {
+						my		: 'bottom center',
+						at		: 'top center',
+						viewport: $(window)
+					}
+				}));
+			}
+			if($('.ttip_l').length) {
+				$('.ttip_l').qtip( $.extend({}, shared, {
+					position: {
+						my		: 'right center',
+						at		: 'left center',
+						viewport: $(window)
+					}
+				}));
+			}
+			if($('.ttip_r').length) {
+				$('.ttip_r').qtip( $.extend({}, shared, {
+					position: {
+						my		: 'left center',
+						at		: 'right center',
+						viewport: $(window)
+					}
+				}));
+			};
+		}
+	}
+}
+/*	*/
 
 // Return false for wrong validation
 $.validator.addMethod("password_confirm", function(value, element) {

@@ -112,7 +112,7 @@ $autoload['language'] = array();
 $autoload['model'] = array(
 	'Driver_model', 'Customer_model', 'Rental_model', 'Rental_Detail_model', 'Rental_Status_model', 'Car_Condition_model', 'User_model', 'Device_model',
 	'Day_model', 'Reservasi_model', 'Reservasi_Status_model', 'Roster_model', 'Schedule_model', 'Config_model', 'User_model', 'Company_User_model',
-	'Company_model', 'Officer_model', 'Device_Category_model', 'Device_Company_model'
+	'Company_model', 'Device_Company_model'
 );
 
 

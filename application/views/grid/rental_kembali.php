@@ -10,6 +10,7 @@
 			<th>No Sewa</th>
 			<th>Pelanggan</th>
 			<th>Tanggal Pesan</th>
+			<th>Tanggal Kembali</th>
 			<th>Total</th>
 			<th>Mobil</th>
 			<th>Status</th>
@@ -22,8 +23,9 @@
 				<td><?php echo $Array['rental_no']; ?></td>
 				<td><?php echo $Array['customer_name']; ?></td>
 				<td><?php echo GetFormatDateCommon($Array['order_date']); ?></td>
+				<td><?php echo GetFormatDateCommon($Array['date_in']); ?></td>
 				<td><?php echo $Array['total_price']; ?></td>
-				<td><?php echo $Array['nopol']; ?></td>
+				<td><?php echo $Array['device']; ?></td>
 				<td><?php echo $Array['rental_status_name']; ?></td>
 				<td>
 					<a class="btn-edit WindowRentalEdit"></a>

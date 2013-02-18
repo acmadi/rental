@@ -3,6 +3,7 @@
 	<script src="<?php echo $this->config->item('base_url'); ?>/static/js/jquery.actual.min.js"></script>
 	<script src="<?php echo $this->config->item('base_url'); ?>/static/js/jquery.cookie.min.js"></script>
 	<script src="<?php echo $this->config->item('base_url'); ?>/static/js/bootstrap.min.js"></script>
+	<script src="<?php echo $this->config->item('base_url'); ?>/static/js/bootstrap-twipsy.js"></script>
 	<script src="<?php echo $this->config->item('base_url'); ?>/static/js/bootstrap-datepicker.js"></script>
 	<script src="<?php echo $this->config->item('base_url'); ?>/static/js/ios-orientationchange-fix.js"></script>
 	<script src="<?php echo $this->config->item('base_url'); ?>/static/lib/antiscroll/antiscroll.js"></script>

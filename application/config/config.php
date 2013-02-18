@@ -18,43 +18,18 @@
 $PortAddress = ($_SERVER['SERVER_PORT'] != 80) ? ':8666' : '';
 
 if ($_SERVER['SERVER_NAME'] == 'localhost') {
-	$config['base_url']		= 'http://localhost'.$PortAddress.'/rental';
+	$config['base_url']		= 'http://localhost'.$PortAddress.'/rental/trunk';
 	$config['login_url']	= 'http://localhost'.$PortAddress.'/lintasgps/hrpc.php';
 	$config['base_path']	= realpath(dirname(__FILE__) . '/../..');
-	
-	$DbHost = 'localhost';
-	$DbUser = 'root';
-	$DbPass = '';
-	$DbName = 'tracking';
 } else if ($_SERVER['SERVER_NAME'] == 'lintasgps.com') {
 	$config['base_url']		= 'http://lintasgps.com/rental';
 	$config['login_url']	= 'http://lintasgps.com/hrpc.php';
 	$config['base_path']    = realpath(dirname(__FILE__) . '/../..');
-	
-	$DbHost = 'localhost';
-	$DbUser = 'gps';
-	$DbPass = 'gps123';
-	$DbName = 'tracking';
 } else {
 	echo 'Please set up config.';
 	exit;
 }
 
-$TrackingConn = mysql_connect($DbHost, $DbUser, $DbPass) or die(mysql_error());
-$TrackingDB = mysql_select_db($DbName) or die(mysql_error());
-
-$config['tracking_conn'] = $TrackingConn;
-
-/*
-|--------------------------------------------------------------------------
-| Index File
-|--------------------------------------------------------------------------
-|
-| Typically this will be your index.php file, unless you've renamed it to
-| something else. If you are using mod_rewrite to remove the page set this
-| variable so that it is blank.
-|
-*/
 $config['index_page'] = 'index.php';
 
 /*

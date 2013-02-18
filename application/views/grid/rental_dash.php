@@ -21,7 +21,7 @@
 		<?php foreach ($result['rows'] as $Array) { ?>
 			<tr>
 				<td><?php echo $Array['rental_no']; ?></td>
-				<td><?php echo $Array['nopol']; ?></td>
+				<td><?php echo $Array['device']; ?></td>
 				<td><?php echo $Array['driver_name']; ?></td>
 				<td><?php echo GetFormatDateCommon($Array['date_out']); ?></td>
 				<td><?php echo GetFormatDateCommon($Array['date_in']); ?></td>

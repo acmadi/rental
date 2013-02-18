@@ -22,6 +22,7 @@
 				<option value="schedule_depature">Berangkat</option>
 				<option value="customer_name">Pelanggan</option>
 			</select>
+			<button class="btn btn-large Reset" type="button"><i class="splashy-sprocket_dark"></i></button>
 			<button class="btn btn-large Search" type="submit"><i class="icon-search"></i></button>
 		</div>
 		
@@ -42,40 +43,40 @@
 				<div class="control-group">
 					<label class="control-label">Jadwal</label>
 					<div class="controls">
-						<select name="schedule_id" class="span10">
+						<select name="schedule_id" class="span10" rel="twipsy" data-placement="right" data-original-title="Jadwal Keberangkatan">
 							<?php echo ShowOption(array('Array' => $ArraySchedule, 'ArrayID' => 'schedule_id', 'ArrayTitle' => 'schedule_title')); ?>
 						</select>
 					</div>
 				</div>
 				<div class="control-group">
 					<label class="control-label" for="input_customer_name">Nama Pelanggan</label>
-					<div class="controls"><input type="text" id="input_customer_name" name="customer_name" placeholder="Nama Pelanggan" class="span10" /></div>
+					<div class="controls"><input type="text" id="input_customer_name" name="customer_name" placeholder="Nama Pelanggan" class="span10" rel="twipsy" data-placement="right" data-original-title="Nama Lengkap Pelanggan" /></div>
 				</div>
 				<div class="control-group">
 					<label class="control-label" for="input_customer_address">Alamat</label>
 					<div class="controls">
-						<textarea id="input_customer_address" name="customer_address" placeholder="Alamat" rows="3" cols="30" class="span10"></textarea>
+						<textarea id="input_customer_address" name="customer_address" placeholder="Alamat" rows="3" cols="30" class="span10" rel="twipsy" data-placement="right" data-original-title="Alamat Pelanggan"></textarea>
 					</div>
 				</div>
 				<div class="control-group">
 					<label class="control-label" for="input_customer_phone">Telepon</label>
-					<div class="controls"><input type="text" id="input_customer_phone" name="customer_phone" placeholder="Telepon" class="span10" /></div>
+					<div class="controls"><input type="text" id="input_customer_phone" name="customer_phone" placeholder="Telepon" class="span10" rel="twipsy" data-placement="right" data-original-title="Telepon Pelanggan" /></div>
 				</div>
 				<div class="control-group">
 					<label class="control-label" for="input_reservasi_capacity">Kapasitas</label>
-					<div class="controls"><input type="text" id="input_reservasi_capacity" name="reservasi_capacity" placeholder="Kapasitas" class="span10" /></div>
+					<div class="controls"><input type="text" id="input_reservasi_capacity" name="reservasi_capacity" placeholder="Kapasitas" class="span10" rel="twipsy" data-placement="right" data-original-title="Jumlah Kapasitas yang dipesan" /></div>
 				</div>
 				<div class="control-group">
 					<label class="control-label" for="input_reservasi_price">Harga</label>
-					<div class="controls"><input type="text" id="input_reservasi_price" name="reservasi_price" placeholder="Harga" class="span10" /></div>
+					<div class="controls"><input type="text" id="input_reservasi_price" name="reservasi_price" placeholder="Harga" class="span10" rel="twipsy" data-placement="right" data-original-title="Harga Satuan" /></div>
 				</div>
 				<div class="control-group">
 					<label class="control-label" for="input_reservasi_total">Total</label>
-					<div class="controls"><input type="text" id="input_reservasi_total" name="reservasi_total" placeholder="Total" class="span10" /></div>
+					<div class="controls"><input type="text" id="input_reservasi_total" name="reservasi_total" placeholder="Total" class="span10" rel="twipsy" data-placement="right" data-original-title="Harga Total" /></div>
 				</div>
 				<div class="control-group">
 					<label class="control-label" for="input_reservasi_note">Catatan</label>
-					<div class="controls"><input type="text" id="input_reservasi_note" name="reservasi_note" placeholder="Catatan" class="span10" /></div>
+					<div class="controls"><input type="text" id="input_reservasi_note" name="reservasi_note" placeholder="Catatan" class="span10" rel="twipsy" data-placement="right" data-original-title="Catatan Reservasi" /></div>
 				</div>
 				<div class="control-group">
 					<label class="control-label">Status</label>
@@ -187,19 +188,9 @@ $(document).ready(function() {
 	$('#CntReservasi .WindowReservasiClose').click(function() {
 		$('#WindowReservasi').modal('hide');
 	});
-	$('#WindowReservasi form').validate({
-		onkeyup: false, errorClass: 'error', validClass: 'valid',
-		highlight: function(element) { $(element).closest('div').addClass("f_error"); },
-		unhighlight: function(element) { $(element).closest('div').removeClass("f_error"); },
-		errorPlacement: function(error, element) { $(element).closest('div').append(error); },
-		rules: {
-			schedule_id: { required: true },
-			customer_name: { required: true },
-			customer_address: { required: true },
-			customer_phone: { required: true },
-			reservasi_capacity: { required: true },
-			reservasi_price: { required: true }
-		}
+	Func.InitForm({
+		Container: '#CntReservasi',
+		rule: { schedule_id: { required: true }, customer_name: { required: true }, customer_address: { required: true }, customer_phone: { required: true }, reservasi_capacity: { required: true }, reservasi_price: { required: true } }
 	});
 	
 	// Load Feature Grid

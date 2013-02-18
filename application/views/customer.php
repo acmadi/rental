@@ -10,6 +10,7 @@
 				<option value="customer_name">Nama</option>
 				<option value="customer_address">Alamat</option>
 			</select>
+			<button class="btn btn-large Reset" type="button"><i class="splashy-sprocket_dark"></i></button>
 			<button class="btn btn-large Search" type="submit"><i class="icon-search"></i></button>
 		</div>
 		
@@ -21,26 +22,26 @@
 	<div id="WindowCustomer" class="modal modal-big hide fade" tabindex="-1" role="dialog" aria-labelledby="windowTitleLabel" aria-hidden="true">
 		<div class="modal-header">
 			<a href="#" class="close" data-dismiss="modal">&times;</a>
-			<h3>Form Customer</h3>
+			<h3>Form Pelanggan</h3>
 		</div>
 		<div class="modal-body">
 			<form class="form-horizontal">
 				<input type="hidden" name="customer_id" value="0" />
 				<div class="control-group">
 					<label class="control-label" for="input_customer_name">Nama</label>
-					<div class="controls"><input type="text" id="input_customer_name" name="customer_name" placeholder="Nama" /></div>
+					<div class="controls"><input type="text" id="input_customer_name" name="customer_name" placeholder="Nama" rel="twipsy" data-placement="right" data-original-title="Nama Lengkap Pelanggan" /></div>
 				</div>
 				<div class="control-group">
 					<label class="control-label" for="input_customer_address">Alamat</label>
-					<div class="controls"><input type="text" id="input_customer_address" name="customer_address" placeholder="Alamat" /></div>
+					<div class="controls"><input type="text" id="input_customer_address" name="customer_address" placeholder="Alamat" rel="twipsy" data-placement="right" data-original-title="Alamat Pelanggan" /></div>
 				</div>
 				<div class="control-group">
 					<label class="control-label" for="input_customer_phone">Telepon</label>
-					<div class="controls"><input type="text" id="input_customer_phone" name="customer_phone" placeholder="Telepon" /></div>
+					<div class="controls"><input type="text" id="input_customer_phone" name="customer_phone" placeholder="Telepon" rel="twipsy" data-placement="right" data-original-title="Telepon Pelanggan" /></div>
 				</div>
 				<div class="control-group">
 					<label class="control-label" for="input_customer_mobile">HP</label>
-					<div class="controls"><input type="text" id="input_customer_mobile" name="customer_mobile" placeholder="HP" /></div>
+					<div class="controls"><input type="text" id="input_customer_mobile" name="customer_mobile" placeholder="HP" rel="twipsy" data-placement="right" data-original-title="HP Pelanggan" /></div>
 				</div>
 				<div class="control-group">
 					<label class="control-label" for="input_customer_gender">Kelamin</label>
@@ -149,16 +150,9 @@ $(document).ready(function() {
 	$('#CntCustomer .WindowCustomerClose').click(function() {
 		$('#WindowCustomer').modal('hide');
 	});
-	$('#WindowCustomer form').validate({
-		onkeyup: false, errorClass: 'error', validClass: 'valid',
-		highlight: function(element) { $(element).closest('div').addClass("f_error"); },
-		unhighlight: function(element) { $(element).closest('div').removeClass("f_error"); },
-		errorPlacement: function(error, element) { $(element).closest('div').append(error); },
-		rules: {
-			customer_name: { required: true },
-			customer_address: { required: true },
-			customer_phone: { required: true }
-		}
+	Func.InitForm({
+		Container: '#CntCustomer',
+		rule: { customer_name: { required: true }, customer_address: { required: true }, customer_phone: { required: true } }
 	});
 	
 	// Load Feature Grid
