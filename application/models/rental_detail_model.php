@@ -57,7 +57,7 @@ class Rental_Detail_model extends CI_Model {
 		
 		$SelectResult = mysql_query($SelectQuery) or die(mysql_error());
 		if (false !== $Row = mysql_fetch_assoc($SelectResult)) {
-			$Array = StripArray($Row);
+			$Array[] = $this->Sync($Row);
 		}
 		
 		return $Array;
@@ -93,7 +93,7 @@ class Rental_Detail_model extends CI_Model {
 		";
 		$SelectResult = mysql_query($SelectQuery) or die(mysql_error());
 		while (false !== $Row = mysql_fetch_assoc($SelectResult)) {
-			$Row = StripArray($Row, array('date_out', 'date_in'));
+			$Row = $this->Sync($Row, array('date_out', 'date_in'));
 			$Array[] = $Row;
 		}
 		
@@ -154,5 +154,12 @@ class Rental_Detail_model extends CI_Model {
         $Result['Message'] = 'Data berhasil dihapus.';
 		
 		return $Result;
+	}
+	
+	function Sync($Row) {
+		$Record = StripArray($Row, array('date_out', 'date_in'));
+		$Record['detail_cost'] = $Record['rental_duration'] * $Record['price_per_day'];
+		
+		return $Record;
 	}
 }

@@ -140,6 +140,7 @@ class Device_model extends CI_Model {
 	function Sync($Row) {
 		$Record = StripArray($Row, array('company_id', 'register_date', 'active_date'));
 		$Record['device_id'] = $Record['id'];
+		$Record['lintas_url'] = LINTAS_LINK . '/main.php#!/zoom/' . $Record['device_id'];
 		
 		return $Record;
 	}

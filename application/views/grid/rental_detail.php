@@ -25,9 +25,9 @@
 				<td><?php echo $Array['destination']; ?></td>
 				<td><?php echo $Array['rental_duration']; ?></td>
 				<td><?php echo $Array['price_per_day']; ?></td>
-				<td>
-					<a class="btn-edit WindowRentalDetailEdit"></a>
-					<a class="btn-del WindowRentalDetailDelete"></a>
+				<td class="center">
+					<a class="cursor WindowRentalDetailEdit"><img src="<?php echo $this->config->item('base_url') . '/static/img/btn_edit.png'; ?>" /></a>
+					<a class="cursor WindowRentalDetailDelete"><img src="<?php echo $this->config->item('base_url') . '/static/img/btn_del.png'; ?>" /></a>
 					<span class="hidden"><?php echo json_encode($Array); ?></span>
 				</td>
 			</tr>

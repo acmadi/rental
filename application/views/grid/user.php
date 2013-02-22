@@ -26,9 +26,9 @@
 				<td><?php echo $Array['msisdn']; ?></td>
 				<td><?php echo ($Array['ispremium'] == 1) ? 'Ya' : 'Tidak'; ?></td>
 				<td><?php echo $Array['company_name']; ?></td>
-				<td>
-					<a class="btn-edit WindowUserEdit"></a>
-					<a class="btn-del WindowUserDelete"></a>
+				<td class="center">
+					<a class="cursor WindowUserEdit"><img src="<?php echo $this->config->item('base_url') . '/static/img/btn_edit.png'; ?>" /></a>
+					<a class="cursor WindowUserDelete"><img src="<?php echo $this->config->item('base_url') . '/static/img/btn_del.png'; ?>" /></a>
 					<span class="hidden"><?php echo json_encode($Array); ?></span>
 				</td>
 			</tr>

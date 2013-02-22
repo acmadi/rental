@@ -786,7 +786,7 @@
 		
 /*	CSS LOCAL */
 .clear { clear: both; }
-.center { text-align: center; }
+.center { text-align: center !important; }
 .right { text-align: right; }
 .strong { font-weight: bold; }
 .cnt-body { padding: 50px 0 0 0; }
@@ -830,9 +830,12 @@
 
 /*	BUTTON */
 .input-append .splashy-sprocket_dark { margin: 3px 0 0 0; }
-.btn-edit { background: url('../img/btn_edit.png'); cursor: pointer; margin: 0 10px; padding: 16px 24px; }
-.btn-del { background: url('../img/btn_del.png'); cursor: pointer; margin: 0 10px; padding: 16px 24px; }
-.btn-report { background: url('../img/btn_report.png'); cursor: pointer; margin: 0 10px; padding: 16px 24px; }
+/*
+/* .btn-edit { cursor: pointer; margin: 0 10px; }					/*	background: url('../img/btn_edit.png');   padding: 16px 24px; */
+/* .btn-del { cursor: pointer; margin: 0 10px; }					/*	background: url('../img/btn_del.png');  */
+/* .btn-report { cursor: pointer; margin: 0 10px; }					/*	background: url('../img/btn_report.png');  */
+/* .btn-menu { cursor: pointer; margin: 0 10px; }					/*	background: url('../img/btn_menu.png');  */
+/*	*/
 
 /*	POP UP BIG */
 .modal-big { width: 720px; margin-left: -360px }

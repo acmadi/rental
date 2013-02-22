@@ -27,8 +27,8 @@
 				<td><?php echo $Array['total_price']; ?></td>
 				<td><?php echo $Array['device']; ?></td>
 				<td><?php echo $Array['rental_status_name']; ?></td>
-				<td>
-					<a class="btn-edit WindowRentalEdit"></a>
+				<td class="center">
+					<a class="cursor WindowRentalEdit"><img src="<?php echo $this->config->item('base_url') . '/static/img/btn_edit.png'; ?>" /></a>
 					<span class="hidden"><?php echo json_encode($Array); ?></span>
 				</td>
 			</tr>

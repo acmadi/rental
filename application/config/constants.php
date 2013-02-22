@@ -39,6 +39,7 @@ define('FOPEN_READ_WRITE_CREATE_STRICT',		'x+b');
 define('SHA_SECRET',							'raHa5!4');
 define('PAGE_COUNT',							15);
 define('COMPANY_ID_SIMETRI',					2);
+define('LINTAS_LINK',							'http://lintasgps.com');
 
 define('CAR_CONDITION',							'car_condition');
 define('COMPANY',								'company');
@@ -48,6 +49,9 @@ define('CUSTOMER',								'customer');
 define('DEVICE',								'members');
 define('DEVICE_COMPANY',						'device_company');
 define('DRIVER',								'driver');
+define('MENU_COMPANY',							'menu_company');
+define('MENU_GROUP',							'menu_group');
+define('MENU_ITEM',								'menu_item');
 define('RENTAL',								'rental');
 define('RENTAL_DETAIL',							'rental_detail');
 define('RENTAL_STATUS',							'rental_status');

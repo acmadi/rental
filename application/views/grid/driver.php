@@ -23,9 +23,9 @@
 				<td><?php echo $Array['driver_phone']; ?></td>
 				<td><?php echo $Array['driver_mobile']; ?></td>
 				<td><?php echo $Array['driver_fee']; ?></td>
-				<td>
-					<a class="btn-edit WindowDriverEdit"></a>
-					<a class="btn-del WindowDriverDelete"></a>
+				<td class="center">
+					<a class="cursor WindowDriverEdit"><img src="<?php echo $this->config->item('base_url') . '/static/img/btn_edit.png'; ?>" /></a>
+					<a class="cursor WindowDriverDelete"><img src="<?php echo $this->config->item('base_url') . '/static/img/btn_del.png'; ?>" /></a>
 					<span class="hidden"><?php echo json_encode($Array); ?></span>
 				</td>
 			</tr>

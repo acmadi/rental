@@ -35,9 +35,9 @@
 				<td><?php echo $Array['reservasi_total']; ?></td>
 				<td><?php echo $Array['reservasi_note']; ?></td>
 				<td><?php echo $Array['reservasi_status_name']; ?></td>
-				<td class="action">
-					<a class="btn-edit WindowReservasiEdit"></a>
-					<a class="btn-del WindowReservasiDelete"></a>
+				<td class="action center">
+					<a class="cursor WindowReservasiEdit"><img src="<?php echo $this->config->item('base_url') . '/static/img/btn_edit.png'; ?>" /></a>
+					<a class="cursor WindowReservasiDelete"><img src="<?php echo $this->config->item('base_url') . '/static/img/btn_del.png'; ?>" /></a>
 					<span class="hidden"><?php echo json_encode($Array); ?></span>
 				</td>
 			</tr>

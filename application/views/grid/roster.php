@@ -25,9 +25,9 @@
 				<td><?php echo $Array['roster_capacity']; ?></td>
 				<td><?php echo $Array['roster_price']; ?></td>
 				<td><?php echo ($Array['roster_active'] == 1) ? 'Aktif' : 'Tidak Aktif'; ?></td>
-				<td>
-					<a class="btn-edit WindowRosterEdit"></a>
-					<a class="btn-del WindowRosterDelete"></a>
+				<td class="center">
+					<a class="cursor WindowRosterEdit"><img src="<?php echo $this->config->item('base_url') . '/static/img/btn_edit.png'; ?>" /></a>
+					<a class="cursor WindowRosterDelete"><img src="<?php echo $this->config->item('base_url') . '/static/img/btn_del.png'; ?>" /></a>
 					<span class="hidden"><?php echo json_encode($Array); ?></span>
 				</td>
 			</tr>

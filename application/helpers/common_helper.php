@@ -106,6 +106,7 @@ if (! function_exists('ConvertDateToQuery')) {
 
 if (! function_exists('MoneyFormat')) {
 	function MoneyFormat($Value) {
+		$Value = (empty($Value)) ? 0 : $Value;
 		return number_format($Value, 2, ',', '.');
 	}
 }

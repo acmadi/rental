@@ -7,10 +7,10 @@
 <table class="table table-bordered table-striped">
 	<thead>
 		<tr>
+			<th>Tanggal</th>
+			<th>Hari</th>
 			<th>Tujuan</th>
 			<th>Sopir</th>
-			<th>Hari</th>
-			<th>Tanggal</th>
 			<th>Berangkat</th>
 			<th>Sampai</th>
 			<th style="text-align: center; width: 210px;">Aksi</th>
@@ -19,16 +19,16 @@
 	<tbody>
 		<?php foreach ($result['rows'] as $Array) { ?>
 			<tr>
+				<td><?php echo GetFormatDateCommon($Array['schedule_date']); ?></td>
+				<td><?php echo $Array['schedule_day_title']; ?></td>
 				<td><?php echo $Array['roster_dest']; ?></td>
 				<td><?php echo $Array['driver_name']; ?></td>
-				<td><?php echo $Array['schedule_day_title']; ?></td>
-				<td><?php echo GetFormatDateCommon($Array['schedule_date']); ?></td>
 				<td><?php echo $Array['schedule_depature']; ?></td>
 				<td><?php echo $Array['schedule_arrival']; ?></td>
-				<td>
-					<a class="btn-edit WindowScheduleEdit"></a>
-					<a class="btn-report WindowScheduleReport"></a>
-					<a class="btn-del WindowScheduleDelete"></a>
+				<td class="center">
+					<a class="cursor WindowScheduleEdit"><img src="<?php echo $this->config->item('base_url') . '/static/img/btn_edit.png'; ?>" /></a>
+					<a class="cursor WindowScheduleReport"><img src="<?php echo $this->config->item('base_url') . '/static/img/btn_report.png'; ?>" /></a>
+					<a class="cursor WindowScheduleDelete"><img src="<?php echo $this->config->item('base_url') . '/static/img/btn_del.png'; ?>" /></a>
 					<span class="hidden"><?php echo json_encode($Array); ?></span>
 				</td>
 			</tr>

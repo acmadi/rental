@@ -3,6 +3,10 @@
 	$ArrayConfig = array(
 		'CurrentDate' => GetFormatDateCommon($this->config->item('current_time'), array('FormatDate' => 'm/d/Y'))
 	);
+	
+	// Get Menu
+	$ParamCompany = array('filter' => '[{"type":"numeric","comparison":"eq","value":' . $company_id . ',"field":"company_id"},{"type":"numeric","comparison":"eq","value":1,"field":"menu_company_active"}]');
+	$MenuCompany = $this->Menu_Item_model->GetTree($ParamCompany);
 ?>
 
 <?php $this->load->view( 'common/meta' ); ?>
@@ -16,40 +20,22 @@
 	<div class="cnt-body">
 		<div class="cnt-left">
 			<div class="accordion pad" id="accordion2">
-				<div class="accordion-group">
-					<div class="accordion-heading">
-						<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">Master</a>
-					</div>
-					<div id="collapseOne" class="accordion-body collapse in">
-						<div class="accordion-inner">
-							<button class="btn btn-large btn-block" type="submit" value='{"TabTitle":"Sopir","TabLink":"driver"}'>Sopir</button>
-							<button class="btn btn-large btn-block" type="submit" value='{"TabTitle":"Pelanggan","TabLink":"customer"}'>Pelanggan</button>
+				<?php $Collapse = true; ?>
+				<?php foreach ($MenuCompany as $Key => $Array) { ?>
+					<div class="accordion-group">
+						<div class="accordion-heading">
+							<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#accordion_<?php echo $Key; ?>"><?php echo $Key; ?></a>
+						</div>
+						<div id="accordion_<?php echo $Key; ?>" class="accordion-body collapse <?php echo ($Collapse) ? 'in' : ''; ?>">
+							<div class="accordion-inner">
+								<?php foreach ($Array as $Item) { ?>
+										<button class="btn btn-large btn-block" type="submit" value='<?php echo json_encode($Item); ?>'><?php echo $Item['menu_item_name']; ?></button>
+								<?php } ?>
+							</div>
 						</div>
 					</div>
-				</div>
-				<div class="accordion-group">
-					<div class="accordion-heading">
-						<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">Rental</a>
-					</div>
-					<div id="collapseTwo" class="accordion-body collapse">
-						<div class="accordion-inner">
-							<button class="btn btn-large btn-block" type="submit" value='{"TabTitle":"Sewa","TabLink":"rental"}'>Sewa</button>
-							<button class="btn btn-large btn-block" type="submit" value='{"TabTitle":"Rental Kembali","TabLink":"rental_kembali"}'>Rental Kembali</button>
-						</div>
-					</div>
-				</div>
-				<div class="accordion-group">
-					<div class="accordion-heading">
-						<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseThree">Travel</a>
-					</div>
-					<div id="collapseThree" class="accordion-body collapse">
-						<div class="accordion-inner">
-							<button class="btn btn-large btn-block" type="submit" value='{"TabTitle":"Roster","TabLink":"roster"}'>Roster</button>
-							<button class="btn btn-large btn-block" type="submit" value='{"TabTitle":"Jadwal","TabLink":"schedule"}'>Jadwal</button>
-							<button class="btn btn-large btn-block" type="submit" value='{"TabTitle":"Reservasi","TabLink":"reservasi"}'>Reservasi</button>
-						</div>
-					</div>
-				</div>
+					<?php $Collapse = false; ?>
+				<?php } ?>
 				<?php if (COMPANY_ID_SIMETRI == $company_id) { ?>
 				<div class="accordion-group">
 					<div class="accordion-heading">
@@ -57,9 +43,9 @@
 					</div>
 					<div id="collapseFour" class="accordion-body collapse">
 						<div class="accordion-inner">
-							<button class="btn btn-large btn-block" type="submit" value='{"TabTitle":"Alat","TabLink":"device"}'>Alat</button>
-							<button class="btn btn-large btn-block" type="submit" value='{"TabTitle":"Pengguna","TabLink":"user"}'>Pengguna</button>
-							<button class="btn btn-large btn-block" type="submit" value='{"TabTitle":"Perusahaan","TabLink":"company"}'>Perusahaan</button>
+							<button class="btn btn-large btn-block" type="submit" value='{"menu_item_name":"Alat","menu_item_link":"device"}'>Alat</button>
+							<button class="btn btn-large btn-block" type="submit" value='{"menu_item_name":"Pengguna","menu_item_link":"user"}'>Pengguna</button>
+							<button class="btn btn-large btn-block" type="submit" value='{"menu_item_name":"Perusahaan","menu_item_link":"company"}'>Perusahaan</button>
 						</div>
 					</div>
 				</div>
@@ -140,12 +126,12 @@
 				var RawModul = $(this).val();
 				eval("var Modul = " + RawModul);
 				
-				var ModulID = 'Tab' + Modul.TabTitle.replace(/ /g, "");;
+				var ModulID = 'Tab' + Modul.menu_item_name.replace(/ /g, "");;
 				if ($('a[href="#' + ModulID + '"]').length > 0) {
 					$('a[href="#' + ModulID + '"]').click();
 				} else {
 					$('#ContentRight .nav-tabs li.active').removeClass('active').removeClass('in');
-					$('#ContentRight .nav-tabs').append('<li><a href="#' + ModulID  + '" data-toggle="tab">' + Modul.TabTitle + ' <button class="close" type="button">&times;</button></a></li>');
+					$('#ContentRight .nav-tabs').append('<li><a href="#' + ModulID  + '" data-toggle="tab">' + Modul.menu_item_name + ' <button class="close" type="button">&times;</button></a></li>');
 					$('#ContentRight .tab-content').append('<div class="tab-pane in active" id="' + ModulID  + '"> Loading ... </div>');
 					$('#ContentRight .nav-tabs a:last').tab('show');
 					
@@ -161,7 +147,7 @@
 					});
 					
 					$.ajax({
-						type: "POST", url: Web.HOST + '/index.php/' + Modul.TabLink,
+						type: "POST", url: Web.HOST + '/index.php/' + Modul.menu_item_link,
 					}).done(function( msg ) {
 						$('#' + ModulID).html(msg);
 					});

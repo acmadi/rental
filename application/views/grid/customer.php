@@ -23,9 +23,9 @@
 				<td><?php echo $Array['customer_phone']; ?></td>
 				<td><?php echo $Array['customer_mobile']; ?></td>
 				<td><?php echo $Array['customer_gender']; ?></td>
-				<td>
-					<a class="btn-edit WindowCustomerEdit"></a>
-					<a class="btn-del WindowCustomerDelete"></a>
+				<td class="center">
+					<a class="cursor WindowCustomerEdit"><img src="<?php echo $this->config->item('base_url') . '/static/img/btn_edit.png'; ?>" /></a>
+					<a class="cursor WindowCustomerDelete"><img src="<?php echo $this->config->item('base_url') . '/static/img/btn_del.png'; ?>" /></a>
 					<span class="hidden"><?php echo json_encode($Array); ?></span>
 				</td>
 			</tr>

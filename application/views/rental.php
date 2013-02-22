@@ -30,10 +30,6 @@
 	
 	<div class="datagrid" style="margin: 0 0 40px 0;"></div>
 	
-	<div class="btn-group">
-		<button class="btn btn-large ShowReport">Laporan</button>
-	</div>
-	
 	<div class="cnt-window hidden">
 		<div class="pad">
 			<input type="hidden" name="rental_id" value="0" />
@@ -202,33 +198,6 @@
 				<a href="#" class="btn btn-large WindowRentalDetailClose">Cancel</a>
 				<a href="#" class="btn btn-large WindowRentalDetailSave btn-primary">OK</a>
 			</div>
-		</div>
-	</div>
-	
-	<div id="WindowReport" class="modal modal-big hide fade" tabindex="-1" role="dialog" aria-labelledby="windowTitleLabel" aria-hidden="true">
-		<div class="modal-header">
-			<a href="#" class="close" data-dismiss="modal">&times;</a>
-			<h3>Form Laporan</h3>
-		</div>
-		<div class="modal-body">
-			<form class="form-horizontal">
-				<div class="control-group">
-					<label class="control-label">Bulan</label>
-					<div class="controls">
-						<select name="month">
-							<?php echo ShowOption(array('Array' => $ArrayMonth)); ?>
-						</select>
-					</div>
-				</div>
-				<div class="control-group">
-					<label class="control-label" for="input_year">Tahun</label>
-					<div class="controls"><input type="text" id="input_year" name="year" placeholder="Tahun" value="<?php echo date("Y"); ?>" /></div>
-				</div>
-			</form>
-		</div>
-		<div class="modal-footer">
-			<a href="#" class="btn btn-large WindowReportClose">Cancel</a>
-			<a href="#" class="btn btn-large WindowReportSave btn-primary">Ok</a>
 		</div>
 	</div>
 </div>
@@ -497,33 +466,6 @@ $(document).ready(function() {
 	// Form Entry Rental
 	$('#CntRental .WindowRentalAdd').click(function() {
 		Local.ShowEditor({});
-	});
-	
-	// Report
-	$('#CntRental .ShowReport').click(function() {
-		$('#WindowReport').modal();
-	});
-	$('#CntRental .WindowReportSave').click(function() {
-		if (! $('#WindowReport form').valid()) {
-			return;
-		}
-		
-		var month = $('select[name="month"]').val();
-		var year = $('input[name="year"]').val();
-		window.open(Web.HOST + '/index.php/rental/view/keuangan/' + year + '/' + month);
-	});
-	$('#CntRental .WindowReportClose').click(function() {
-		$('#WindowReport').modal('hide');
-	});
-	$('#WindowReport form').validate({
-		onkeyup: false, errorClass: 'error', validClass: 'valid',
-		highlight: function(element) { $(element).closest('div').addClass("f_error"); },
-		unhighlight: function(element) { $(element).closest('div').removeClass("f_error"); },
-		errorPlacement: function(error, element) { $(element).closest('div').append(error); },
-		rules: {
-			month: { required: true },
-			year: { required: true }
-		}
 	});
 	
 	// Load Feature Grid

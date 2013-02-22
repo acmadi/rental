@@ -40,7 +40,7 @@ class rental extends CI_Controller {
         $this->load->view( 'grid/' . $Page );
     }
 	
-	function view($PageView = 'keuangan') {
+	function view($PageView = 'summary') {
 		$this->load->view( 'report/' . $PageView );
 	}
 }

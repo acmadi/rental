@@ -91,7 +91,7 @@ $(document).ready(function() {
 			var GridParam = {
 				start: (Param.PageNo - 1) * PageCount,
 				limit: PageCount, page: Param.PageNo, filter: PageFilter,
-				sort: '[{"property":"schedule_date","direction":"DESC"}]'
+				sort: '[{"property":"schedule_date","direction":"DESC"},{"property":"roster_dest","direction":"ASC"}]'
 			}
 			
 			$.ajax({

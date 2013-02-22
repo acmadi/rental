@@ -55,7 +55,7 @@ class Schedule_model extends CI_Model {
 	
 	function GetArray($Param = array()) {
 		$Array = array();
-		$StringSearch = (isset($Param['NameLike'])) ? "AND Schedule.schedule_date LIKE '%" . $Param['NameLike'] . "%'"  : '';
+//		$StringSearch = (isset($Param['NameLike'])) ? "AND Schedule.schedule_date LIKE '%" . $Param['NameLike'] . "%'"  : '';
 		$StringCompany = (!empty($Param['company_id'])) ? "AND Schedule.company_id = '" . $Param['company_id'] . "'"  : '';
 		$StringFilter = GetStringFilter($Param);
 		
@@ -68,7 +68,7 @@ class Schedule_model extends CI_Model {
 			FROM ".SCHEDULE." Schedule
 			LEFT JOIN ".ROSTER." Roster ON Roster.roster_id = Schedule.roster_id
 			LEFT JOIN ".DRIVER." Driver ON Driver.driver_id = Schedule.driver_id
-			WHERE 1 $StringSearch $StringCompany $StringFilter
+			WHERE 1 $StringCompany $StringFilter
 			ORDER BY $StringSorting
 			LIMIT $PageOffset, $PageLimit
 		";
@@ -83,7 +83,7 @@ class Schedule_model extends CI_Model {
 	function GetCount($Param = array()) {
 		$TotalRecord = 0;
 		
-		$StringSearch = (isset($Param['NameLike'])) ? "AND Schedule.schedule_date LIKE '%" . $Param['NameLike'] . "%'"  : '';
+//		$StringSearch = (isset($Param['NameLike'])) ? "AND Schedule.schedule_date LIKE '%" . $Param['NameLike'] . "%'"  : '';
 		$StringCompany = (!empty($Param['company_id'])) ? "AND Schedule.company_id = '" . $Param['company_id'] . "'"  : '';
 		$StringFilter = GetStringFilter($Param);
 		
@@ -92,7 +92,7 @@ class Schedule_model extends CI_Model {
 			FROM ".SCHEDULE." Schedule
 			LEFT JOIN ".ROSTER." Roster ON Roster.roster_id = Schedule.roster_id
 			LEFT JOIN ".DRIVER." Driver ON Driver.driver_id = Schedule.driver_id
-			WHERE 1 $StringSearch $StringCompany $StringFilter
+			WHERE 1 $StringCompany $StringFilter
 		";
 		$SelectResult = mysql_query($SelectQuery) or die(mysql_error());
 		while (false !== $Row = mysql_fetch_assoc($SelectResult)) {
@@ -100,6 +100,61 @@ class Schedule_model extends CI_Model {
 		}
 		
 		return $TotalRecord;
+	}
+	
+	function GetSummary($Param = array()) {
+		$Array = array();
+		$StringCompany = (!empty($Param['company_id'])) ? "AND Schedule.company_id = '" . $Param['company_id'] . "'"  : '';
+		$StringFilter = GetStringFilter($Param);
+		
+		$PageOffset = (isset($Param['start']) && !empty($Param['start'])) ? $Param['start'] : 0;
+		$PageLimit = (isset($Param['limit']) && !empty($Param['limit'])) ? $Param['limit'] : 25;
+        $StringSorting = (isset($Param['sort'])) ? GetStringSorting($Param['sort']) : 'schedule_date ASC';
+		
+		$SelectQuery = "
+			SELECT Schedule.schedule_date, Roster.roster_dest, Driver.driver_name, SUM(reservasi_total) total
+			FROM ".SCHEDULE." Schedule
+			LEFT JOIN ".ROSTER." Roster ON Roster.roster_id = Schedule.roster_id
+			LEFT JOIN ".DRIVER." Driver ON Driver.driver_id = Schedule.driver_id
+			LEFT JOIN ".RESERVASI." Reservasi ON Reservasi.schedule_id = Schedule.schedule_id
+			WHERE 1 $StringCompany $StringFilter
+			GROUP BY Schedule.schedule_date, Roster.roster_dest, Driver.driver_name
+			ORDER BY $StringSorting
+			LIMIT $PageOffset, $PageLimit
+		";
+		$SelectResult = mysql_query($SelectQuery) or die(mysql_error());
+		while (false !== $Row = mysql_fetch_assoc($SelectResult)) {
+			$Array[] = $this->Sync($Row);
+		}
+		
+		return $Array;
+	}
+	
+	function GetDetail($Param = array()) {
+		$Array = array();
+		$StringCompany = (!empty($Param['company_id'])) ? "AND Schedule.company_id = '" . $Param['company_id'] . "'"  : '';
+		$StringFilter = GetStringFilter($Param);
+		
+		$PageOffset = (isset($Param['start']) && !empty($Param['start'])) ? $Param['start'] : 0;
+		$PageLimit = (isset($Param['limit']) && !empty($Param['limit'])) ? $Param['limit'] : 25;
+        $StringSorting = (isset($Param['sort'])) ? GetStringSorting($Param['sort']) : 'schedule_date ASC';
+		
+		$SelectQuery = "
+			SELECT Schedule.schedule_date, Roster.roster_dest, Driver.driver_name, reservasi_total
+			FROM ".SCHEDULE." Schedule
+			LEFT JOIN ".ROSTER." Roster ON Roster.roster_id = Schedule.roster_id
+			LEFT JOIN ".DRIVER." Driver ON Driver.driver_id = Schedule.driver_id
+			LEFT JOIN ".RESERVASI." Reservasi ON Reservasi.schedule_id = Schedule.schedule_id
+			WHERE 1 $StringCompany $StringFilter
+			ORDER BY $StringSorting
+			LIMIT $PageOffset, $PageLimit
+		";
+		$SelectResult = mysql_query($SelectQuery) or die(mysql_error());
+		while (false !== $Row = mysql_fetch_assoc($SelectResult)) {
+			$Array[] = $this->Sync($Row);
+		}
+		
+		return $Array;
 	}
 	
 	function Delete($Param) {
@@ -134,13 +189,13 @@ class Schedule_model extends CI_Model {
 	function Sync($Record) {
 		$Record = StripArray($Record, array('schedule_date', 'schedule_depature', 'schedule_arrival'));
 		
-		
 		if (!empty($Record['schedule_date'])) {
 			$DayNo = GetFormatDateCommon($Record['schedule_date'], array('FormatDate' => 'N'));
 			$Record['schedule_day_title'] = (isset($this->ArrayDay[$DayNo])) ? $this->ArrayDay[$DayNo] : '';
 		}
 		
-		$Record['schedule_title'] = GetFormatDateCommon($Record['schedule_date']) . ' ' . $Record['roster_dest'] . ' ' . $Record['schedule_depature'];
+		if (isset($Record['schedule_date']) && isset($Record['roster_dest']) && isset($Record['schedule_depature']))
+			$Record['schedule_title'] = GetFormatDateCommon($Record['schedule_date']) . ' ' . $Record['roster_dest'] . ' ' . $Record['schedule_depature'];
 		
 		return $Record;
 	}

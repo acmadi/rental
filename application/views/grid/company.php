@@ -9,7 +9,7 @@
 			<th>Nama</th>
 			<th>Alamat</th>
 			<th>Telepon</th>
-			<th style="text-align: center; width: 140px;">Aksi</th>
+			<th style="text-align: center; width: 210px;">Aksi</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -18,9 +18,10 @@
 				<td><?php echo $Array['company_name']; ?></td>
 				<td><?php echo $Array['company_address']; ?></td>
 				<td><?php echo $Array['company_phone']; ?></td>
-				<td>
-					<a class="btn-edit WindowCompanyEdit"></a>
-					<a class="btn-del WindowCompanyDelete"></a>
+				<td class="center">
+					<a class="cursor WindowCompanyEdit"><img src="<?php echo $this->config->item('base_url') . '/static/img/btn_edit.png'; ?>" /></a>
+					<a class="cursor WindowMenu"><img src="<?php echo $this->config->item('base_url') . '/static/img/btn_menu.png'; ?>" /></a>
+					<a class="cursor WindowCompanyDelete"><img src="<?php echo $this->config->item('base_url') . '/static/img/btn_del.png'; ?>" /></a>
 					<span class="hidden"><?php echo json_encode($Array); ?></span>
 				</td>
 			</tr>

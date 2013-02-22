@@ -25,9 +25,9 @@
 				<td><?php echo $Array['uang_muka']; ?></td>
 				<td><?php echo $Array['total_price']; ?></td>
 				<td><?php echo $Array['rental_desc']; ?></td>
-				<td>
-					<a class="btn-edit WindowRentalEdit"></a>
-					<a class="btn-del WindowRentalDelete"></a>
+				<td class="center">
+					<a class="cursor WindowRentalEdit"><img src="<?php echo $this->config->item('base_url') . '/static/img/btn_edit.png'; ?>" /></a>
+					<a class="cursor WindowRentalDelete"><img src="<?php echo $this->config->item('base_url') . '/static/img/btn_del.png'; ?>" /></a>
 					<span class="hidden"><?php echo json_encode($Array); ?></span>
 				</td>
 			</tr>

@@ -107,7 +107,7 @@ $(document).ready(function() {
 			var GridParam = {
 				start: (Param.PageNo - 1) * PageCount,
 				limit: PageCount, page: Param.PageNo, filter: PageFilter,
-				sort: '[{"property":"customer_name","direction":"ASC"}]'
+				sort: '[{"property":"schedule_date","direction":"ASC"},{"property":"roster_dest","direction":"ASC"},{"property":"schedule_depature","direction":"ASC"},{"property":"customer_name","direction":"ASC"}]'
 			}
 			
 			$.ajax({
