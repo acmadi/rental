@@ -4,7 +4,10 @@ class Reservasi_model extends CI_Model {
 	function __construct() {
         parent::__construct();
 		
-		$this->Field = array('reservasi_id', 'schedule_id', 'reservasi_status_id', 'customer_name', 'customer_address', 'customer_phone', 'reservasi_capacity', 'reservasi_price', 'reservasi_total', 'reservasi_note', 'company_id');
+		$this->Field = array(
+			'reservasi_id', 'schedule_id', 'reservasi_status_id', 'customer_name', 'customer_address', 'customer_phone', 'reservasi_capacity',
+			'reservasi_price', 'reservasi_total', 'reservasi_note', 'company_id', 'reservasi_seat'
+		);
     }
 	
 	function Update($Param) {
@@ -51,13 +54,13 @@ class Reservasi_model extends CI_Model {
 	
 	function GetArray($Param = array()) {
 		$Array = array();
-		$StringSearch = (isset($Param['NameLike'])) ? "AND Reservasi.reservasi_name LIKE '%" . $Param['NameLike'] . "%'"  : '';
+		$StringSearch = (isset($Param['NameLike'])) ? "AND Reservasi.customer_name LIKE '%" . $Param['NameLike'] . "%'"  : '';
 		$StringCompany = (!empty($Param['company_id'])) ? "AND Reservasi.company_id = '" . $Param['company_id'] . "'"  : '';
 		$StringFilter = GetStringFilter($Param);
 		
 		$PageOffset = (isset($Param['start']) && !empty($Param['start'])) ? $Param['start'] : 0;
 		$PageLimit = (isset($Param['limit']) && !empty($Param['limit'])) ? $Param['limit'] : 25;
-        $StringSorting = (isset($Param['sort'])) ? GetStringSorting($Param['sort']) : 'reservasi_name ASC';
+        $StringSorting = (isset($Param['sort'])) ? GetStringSorting($Param['sort']) : 'customer_name ASC';
 		
 		$SelectQuery = "
 			SELECT
@@ -83,7 +86,7 @@ class Reservasi_model extends CI_Model {
 	function GetCount($Param = array()) {
 		$TotalRecord = 0;
 		
-		$StringSearch = (isset($Param['NameLike'])) ? "AND Reservasi.reservasi_name LIKE '%" . $Param['NameLike'] . "%'"  : '';
+		$StringSearch = (isset($Param['NameLike'])) ? "AND Reservasi.customer_name LIKE '%" . $Param['NameLike'] . "%'"  : '';
 		$StringCompany = (!empty($Param['company_id'])) ? "AND Reservasi.company_id = '" . $Param['company_id'] . "'"  : '';
 		$StringFilter = GetStringFilter($Param);
 		
@@ -119,5 +122,42 @@ class Reservasi_model extends CI_Model {
 		$Record = StripArray($Record);
 		
 		return $Record;
+	}
+	
+	function IsFreeSeat($Param) {
+		$IsFreeSeat = 1;
+		$ArraySeat = explode(',', $Param['reservasi_seat']);
+		if (empty($Param['reservasi_seat'])) {
+			return 1;
+		}
+		
+		// Array Reservasi
+		$ParamReservasi = array(
+			'filter' => '['.
+				'{"type":"numeric","comparison":"eq","field":"Schedule.schedule_id","value":"'.$Param['schedule_id'].'"},'.
+				'{"type":"numeric","comparison":"not","field":"reservasi_id","value":"'.$Param['reservasi_id'].'"}'.
+			']'
+		);
+		$ArrayReservasi = $this->GetArray($ParamReservasi);
+		$ArraySeatUsed = array();
+		foreach ($ArrayReservasi as $Reservasi) {
+			if (empty($Reservasi['reservasi_seat'])) {
+				continue;
+			}
+			
+			$ArrayTemp = explode(',', $Reservasi['reservasi_seat']);
+			$ArraySeatUsed = array_merge($ArraySeatUsed, $ArrayTemp);
+		}
+		
+		
+		// Check Seat
+		foreach ($ArraySeat as $Seat) {
+			if (in_array($Seat, $ArraySeatUsed)) {
+				$IsFreeSeat = 0;
+				break;
+			}
+		}
+		
+		return $IsFreeSeat;
 	}
 }

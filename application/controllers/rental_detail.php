@@ -11,6 +11,7 @@ class rental_detail extends CI_Controller {
 		
 		if ($Action == 'UpdateRentalDetail') {
 			$Result = $this->Rental_Detail_model->Update($_POST);
+			$this->Rental_Detail_model->UpdateCost($Result['rental_detail_id']);
 			
 			if (!empty($_POST['rental_id'])) {
 				$Cost = $this->Rental_Detail_model->GetTotalCost(array('rental_id' => $_POST['rental_id']));

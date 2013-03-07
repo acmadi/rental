@@ -8,7 +8,7 @@
 	<script src="<?php echo $this->config->item('base_url'); ?>/static/js/ios-orientationchange-fix.js"></script>
 	<script src="<?php echo $this->config->item('base_url'); ?>/static/lib/antiscroll/antiscroll.js"></script>
 	<script src="<?php echo $this->config->item('base_url'); ?>/static/lib/validation/jquery.validate.js"></script>
-
+	<script src="<?php echo $this->config->item('base_url'); ?>/static/lib/fullcalendar/fullcalendar.js"></script>
 	
 	<!--
 	<script src="<?php echo $this->config->item('base_url'); ?>/static/lib/qtip2/jquery.qtip.min.js"></script>

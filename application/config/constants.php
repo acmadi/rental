@@ -54,6 +54,8 @@ define('MENU_GROUP',							'menu_group');
 define('MENU_ITEM',								'menu_item');
 define('RENTAL',								'rental');
 define('RENTAL_DETAIL',							'rental_detail');
+define('RENTAL_DURASI',							'rental_durasi');
+define('RENTAL_PRICE',							'rental_price');
 define('RENTAL_STATUS',							'rental_status');
 define('RESERVASI',								'reservasi');
 define('RESERVASI_STATUS',						'reservasi_status');

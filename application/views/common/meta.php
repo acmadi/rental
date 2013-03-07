@@ -7,6 +7,7 @@
 	<link rel="stylesheet" href="<?php echo $this->config->item('base_url'); ?>/static/css/datepicker.css" />
 	<link rel="stylesheet" href="<?php echo $this->config->item('base_url'); ?>/static/css/dark.css" id="link_theme" />
 	<link rel="stylesheet" href="<?php echo $this->config->item('base_url'); ?>/static/img/splashy/splashy.css" />
+	<link rel="stylesheet" href="<?php echo $this->config->item('base_url'); ?>/static/lib/fullcalendar/fullcalendar_gebo.css" />
 	
 	<!--
 	<link rel="stylesheet" href="<?php echo $this->config->item('base_url'); ?>/static/lib/qtip2/jquery.qtip.min.css" />

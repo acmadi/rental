@@ -21,7 +21,7 @@
 				<option value="rental_no">No Sewa</option>
 				<option value="customer_name">Nama Pelanggan</option>
 			</select>
-			<button class="btn btn-large Reset" type="button"><i class="splashy-sprocket_dark"></i></button>
+			<button class="btn btn-large Reset" type="button"><i class="splashy-refresh"></i></button>
 			<button class="btn btn-large Search" type="submit"><i class="icon-search"></i></button>
 		</div>
 		
@@ -125,16 +125,22 @@
 						<div class="controls"><input type="text" id="input_date_out" name="date_out" class="datepicker" placeholder="Tanggal Keluar" rel="twipsy" data-placement="right" data-original-title="Tanggal Keluar" /></div>
 					</div>
 					<div class="control-group">
-						<label class="control-label" for="input_rental_duration">Lama Sewa</label>
-						<div class="controls"><input type="text" id="input_rental_duration" name="rental_duration" placeholder="Lama Sewa dalam Hari" rel="twipsy" data-placement="right" data-original-title="Lama Sewa dalam Hari" /></div>
-					</div>
-					<div class="control-group">
 						<label class="control-label">Mobil</label>
 						<div class="controls">
 							<select name="car_id">
 								<?php echo ShowOption(array('Array' => $ArrayDevice, 'ArrayID' => 'id', 'ArrayTitle' => 'device')); ?>
 							</select>
 						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label">Lama Sewa</label>
+						<div class="controls">
+							<select name="rental_price_id"><option value="">-</option></select>
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="input_rental_detail_jumlah">Jumlah</label>
+						<div class="controls"><input type="text" id="input_rental_detail_jumlah" name="rental_detail_jumlah" placeholder="Jumlah Rental" rel="twipsy" data-placement="right" data-original-title="Jumlah Rental" /></div>
 					</div>
 					<div class="control-group">
 						<label class="control-label">Sopir</label>
@@ -149,12 +155,8 @@
 						<div class="controls"><input type="text" id="input_destination" name="destination" placeholder="Tujuan" rel="twipsy" data-placement="right" data-original-title="Tujuan" /></div>
 					</div>
 					<div class="control-group">
-						<label class="control-label" for="input_price_per_day">Harga Sewa / Hari</label>
-						<div class="controls"><input type="text" id="input_price_per_day" name="price_per_day" placeholder="Harga Sewa / Hari" rel="twipsy" data-placement="right" data-original-title="Harga Sewa / Hari" /></div>
-					</div>
-					<div class="control-group">
 						<label class="control-label" for="input_date_in">Tanggal Kembali</label>
-						<div class="controls"><input type="text" disabled="disabled" id="input_date_in" name="date_in" class="datepicker" placeholder="Tanggal Kembali" rel="twipsy" data-placement="right" data-original-title="Tanggal Kembali" /></div>
+						<div class="controls"><input type="text" id="input_date_in" name="date_in" class="datepicker" placeholder="Tanggal Kembali" rel="twipsy" data-placement="right" data-original-title="Tanggal Kembali" /></div>
 					</div>
 					<div class="control-group">
 						<label class="control-label">Status</label>
@@ -179,6 +181,26 @@
 					<div class="control-group">
 						<label class="control-label" for="input_driver_duration">Durasi Sopir</label>
 						<div class="controls"><input type="text" id="input_driver_duration" name="driver_duration" placeholder="Durasi Sopir" rel="twipsy" data-placement="right" data-original-title="Durasi Sopir" /></div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="input_rental_detail_fuel">Fuel</label>
+						<div class="controls"><input type="text" id="input_rental_detail_fuel" name="rental_detail_fuel" placeholder="Fuel" rel="twipsy" data-placement="right" data-original-title="Biaya Tambahan Bensin" /></div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="input_rental_detail_odometer">Odometer</label>
+						<div class="controls"><input type="text" id="input_rental_detail_odometer" name="rental_detail_odometer" placeholder="Odometer" rel="twipsy" data-placement="right" data-original-title="Biaya Tambahan Odometer" /></div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="input_rental_detail_overtime">Overtime</label>
+						<div class="controls"><input type="text" id="input_rental_detail_overtime" name="rental_detail_overtime" placeholder="Overtime" rel="twipsy" data-placement="right" data-original-title="Biaya Tambahan Overtime" /></div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="input_rental_detail_kerusakan">Kerusakan</label>
+						<div class="controls"><input type="text" id="input_rental_detail_kerusakan" name="rental_detail_kerusakan" placeholder="Kerusakan" rel="twipsy" data-placement="right" data-original-title="Biaya Tambahan Kerusakan" /></div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="input_rental_detail_discount">Potongan</label>
+						<div class="controls"><input type="text" id="input_rental_detail_discount" name="rental_detail_discount" placeholder="Potongan" rel="twipsy" data-placement="right" data-original-title="Potongan Biaya" /></div>
 					</div>
 					<div class="control-group">
 						<label class="control-label" for="input_car_condition_out">Kondisi Mobil Keluar</label>
@@ -242,16 +264,25 @@ $(document).ready(function() {
 					$('.form-rental input[name="rental_detail_id"]').val(Record.rental_detail_id)
 					$('.form-rental input[name="date_out"]').val(Func.SwapDate(Record.date_out))
 					$('.form-rental input[name="date_in"]').val(Func.SwapDate(Record.date_in))
-					$('.form-rental input[name="price_per_day"]').val(Record.price_per_day)
 					$('.form-rental input[name="destination"]').val(Record.destination)
-					$('.form-rental input[name="rental_duration"]').val(Record.rental_duration)
-					$('.form-rental input[name="car_condition_out"]').val(Record.car_condition_out)
-					$('.form-rental input[name="car_condition_in"]').val(Record.car_condition_in)
 					$('.form-rental input[name="guaranty"]').val(Record.guaranty)
+					$('.form-rental input[name="driver_fee"]').val(Record.driver_fee)
+					$('.form-rental input[name="rental_duration"]').val(Record.rental_duration)
+					$('.form-rental input[name="driver_duration"]').val(Record.driver_duration)
+					$('.form-rental input[name="car_condition_in"]').val(Record.car_condition_in)
+					$('.form-rental input[name="car_condition_out"]').val(Record.car_condition_out)
+					$('.form-rental input[name="rental_detail_fuel"]').val(Record.rental_detail_fuel)
+					$('.form-rental input[name="rental_detail_jumlah"]').val(Record.rental_detail_jumlah)
+					$('.form-rental input[name="rental_detail_odometer"]').val(Record.rental_detail_odometer)
+					$('.form-rental input[name="rental_detail_overtime"]').val(Record.rental_detail_overtime)
+					$('.form-rental input[name="rental_detail_kerusakan"]').val(Record.rental_detail_kerusakan)
+					$('.form-rental input[name="rental_detail_discount"]').val(Record.rental_detail_discount)
 					$('.form-rental select[name="car_id"]').val(Record.car_id)
 					$('.form-rental select[name="driver_id"]').val(Record.driver_id)
 					$('.form-rental select[name="rental_status_id"]').val(Record.rental_status_id)
 					$('.form-rental select[name="car_condition_id"]').val(Record.car_condition_id)
+					
+					Func.SetValue({ data: { Action: 'RentalPrice', car_id: Record.car_id }, combo: $('.form-rental select[name="rental_price_id"]'), value: Record.rental_price_id });
 					
 					// Set Record Value
 					$('.form-rental .WindowRentalDetail').modal();
@@ -337,8 +368,6 @@ $(document).ready(function() {
 		},
 		InitEditor: function() {
 			// Set Listeners
-			$('.form-rental input[name="date_out"]').blur(function() { Local.SetDateIn() });
-			$('.form-rental input[name="rental_duration"]').blur(function() { Local.SetDateIn() });
 			$('.form-rental select[name="customer_id"]').change(function() {
 				$.ajax({
 					type: "POST", url: Web.HOST + '/index.php/customer/action',
@@ -353,6 +382,19 @@ $(document).ready(function() {
 					$('.form-rental input[name="customer_phone"]').val(Result.customer_phone);
 				});
 			});
+			$('.form-rental select[name="driver_id"]').change(function() {
+				var driver_id = $(this).val();
+				$.ajax({
+					type: "POST", url: Web.HOST + '/index.php/driver/Action',
+					data: { Action: 'GetDriverByID', driver_id: driver_id }
+				}).done(function( RawResult ) {
+					eval('var Result = ' + RawResult);
+					$('.form-rental input[name="driver_fee"]').val(Result.driver_fee);
+				});
+			});
+			$('.form-rental select[name="car_id"]').change(function() {
+				Func.SetValue({ data: { Action: 'RentalPrice', car_id: $(this).val() }, combo: $('.form-rental select[name="rental_price_id"]') });
+			});
 			
 			// Init Form
 			Func.InitForm({
@@ -361,7 +403,10 @@ $(document).ready(function() {
 			});
 			Func.InitForm({
 				Container: '.form-rental .WindowRentalDetail',
-				rule: { date_out: { required: true }, rental_duration: { required: true }, car_id: { required: true }, driver_id: { required: true }, destination: { required: true }, price_per_day: { required: true } }
+				rule: {
+					date_out: { required: true }, car_id: { required: true }, rental_detail_jumlah: { required: true },
+					driver_id: { required: true }, destination: { required: true }, rental_price_id: { required: true }
+				}
 			});
 			
 			// Form Entry Master
@@ -372,8 +417,9 @@ $(document).ready(function() {
 			$('.form-rental .WindowRentalDetailAdd').click(function() {
 				var FuncCallback = function() {
 					$('.form-rental .WindowRentalDetail').modal();
-					$('.form-rental input[name="rental_detail_id"]').val(0);
 					$('.form-rental .WindowRentalDetail form').each(function(){ this.reset(); });
+					$('.form-rental input[name="rental_detail_id"]').val(0);
+					$('.form-rental input[name="rental_detail_jumlah"]').val(1);
 				}
 				
 				var rental_id = $('.form-rental input[name="rental_id"]').val();

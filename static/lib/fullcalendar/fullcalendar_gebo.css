@@ -25,7 +25,7 @@ html .fc,.fc table{font-size:1em}
 a.fc-event,.fc-event-draggable{cursor:pointer}
 a.fc-event{text-decoration:none}
 .fc-rtl .fc-event{text-align:right}
-.fc-event-skin{background-color:#36c;color:#1c546d;border-color:#36c}
+.fc-event-skin{background-color:#36c;color:#1c546d;border-color:#36c;cursor: pointer;}
 .fc-event-inner{position:relative;width:100%;height:100%;overflow:hidden;border-style:solid;border-width:0}
 .fc-event-time,.fc-event-title{padding:0 1px}
 .fc .ui-resizable-handle{display:block;position:absolute;z-index:99999;overflow:hidden;font-size:300%;line-height:50%}
@@ -86,8 +86,8 @@ background: linear-gradient(top,  #f9f9f9 0%,#ececec 100%);
 .fc-header {position:relative}
 .fc-header-left {width:100%;float:none;height:38px;overflow:hidden}
 .fc-header-center {position:absolute;width:80%;text-align:center;left:10%;top:0}
-.fc-header-title h2{font-size:18px;color:#222;font-family: 'PT Sans', sans-serif;font-weight:400}
-.fc-header-right {position:absolute;width:auto;top:-48px;right:10px}
+.fc-header-title h2{font-size:18px;color:#222;font-weight:400}
+.fc-header-right {position:absolute;width:auto;top:-48px;right:10px;display: none;}
 .fc-header-right > .fc-btn {float:left;padding-right:12px;padding-left:12px;margin-right:2px;line-height:26px;color:#0088CC;display:block;border:1px solid transparent}
 .fc-header-right .fc-state-hover {background: #eee;-webkit-border-radius:4px;-moz-border-radius:4px;border-radius:4px}
 .fc-header-right .fc-state-active {position:relative;top:-2px;line-height:30px;color:#555;background-color:#fff !important;border:1px solid #ddd;border-bottom-color:transparent;cursor:default;-webkit-border-radius:4px 4px 0 0;-moz-border-radius:4px 4px 0 0;border-radius:4px 4px 0 0}

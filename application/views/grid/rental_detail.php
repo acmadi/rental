@@ -11,7 +11,7 @@
 			<th>Kembali</th>
 			<th>Tujuan</th>
 			<th>Durasi</th>
-			<th>Harga / Hari</th>
+			<th>Total Biaya</th>
 			<th style="text-align: center; width: 140px;">Aksi</th>
 		</tr>
 	</thead>
@@ -23,8 +23,8 @@
 				<td><?php echo GetFormatDateCommon($Array['date_out']); ?></td>
 				<td><?php echo GetFormatDateCommon($Array['date_in']); ?></td>
 				<td><?php echo $Array['destination']; ?></td>
-				<td><?php echo $Array['rental_duration']; ?></td>
-				<td><?php echo $Array['price_per_day']; ?></td>
+				<td><?php echo $Array['rental_detail_jumlah'].' x '.$Array['rental_durasi_name']; ?></td>
+				<td><?php echo $Array['rental_detail_cost']; ?></td>
 				<td class="center">
 					<a class="cursor WindowRentalDetailEdit"><img src="<?php echo $this->config->item('base_url') . '/static/img/btn_edit.png'; ?>" /></a>
 					<a class="cursor WindowRentalDetailDelete"><img src="<?php echo $this->config->item('base_url') . '/static/img/btn_del.png'; ?>" /></a>

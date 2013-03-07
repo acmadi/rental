@@ -10,7 +10,7 @@
 				<option value="driver_name">Nama</option>
 				<option value="driver_address">Alamat</option>
 			</select>
-			<button class="btn btn-large Reset" type="button"><i class="splashy-sprocket_dark"></i></button>
+			<button class="btn btn-large Reset" type="button"><i class="splashy-refresh"></i></button>
 			<button class="btn btn-large Search" type="button"><i class="icon-search"></i></button>
 		</div>
 		

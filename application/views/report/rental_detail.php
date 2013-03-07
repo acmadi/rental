@@ -50,19 +50,19 @@ td, tr { border: 1px solid #000000; padding: 2px 5px; }
 				<tr class="center">
 					<td>Rental No</td>
 					<td>Pengemudi</td>
-					<td>Alat</td>
+					<td>Mobil</td>
 					<td>Status</td>
 					<td>Total</td>
 				</tr>
 				<?php $Total = 0; ?>
 				<?php foreach ($ArrayRental as $Array) { ?>
-					<?php $Total += $Array['detail_cost']; ?>
+					<?php $Total += $Array['rental_detail_cost']; ?>
 					<tr>
 						<td><?php echo $Array['rental_no']; ?></td>
 						<td><?php echo $Array['driver_name']; ?></td>
 						<td><?php echo $Array['device']; ?></td>
 						<td><?php echo $Array['rental_status_name']; ?></td>
-						<td class="right"><?php echo MoneyFormat($Array['detail_cost']); ?></td>
+						<td class="right"><?php echo MoneyFormat($Array['rental_detail_cost']); ?></td>
 					</tr>
 				<?php } ?>
 					<tr>

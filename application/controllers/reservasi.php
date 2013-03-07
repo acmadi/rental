@@ -16,7 +16,13 @@ class reservasi extends CI_Controller {
 		
 		if ($Action == 'UpdateReservasi') {
 			$_POST['company_id'] = $this->User_model->GetCompanyID();
-			$Result = $this->Reservasi_model->Update($_POST);
+			$IsFreeSeat = $this->Reservasi_model->IsFreeSeat($_POST);
+			if ($IsFreeSeat == 1) {
+				$Result = $this->Reservasi_model->Update($_POST);
+			} else {
+				$Result['QueryStatus'] = '0';
+				$Result['Message'] = 'Gagal, kursi yang dipakai sudah dipesan.';
+			}
 		} else if ($Action == 'DeteleReservasiByID') {
 			$Result = $this->Reservasi_model->Delete($_POST);
 		}

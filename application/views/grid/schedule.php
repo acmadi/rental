@@ -10,6 +10,7 @@
 			<th>Tanggal</th>
 			<th>Hari</th>
 			<th>Tujuan</th>
+			<th>Mobil</th>
 			<th>Sopir</th>
 			<th>Berangkat</th>
 			<th>Sampai</th>
@@ -22,6 +23,7 @@
 				<td><?php echo GetFormatDateCommon($Array['schedule_date']); ?></td>
 				<td><?php echo $Array['schedule_day_title']; ?></td>
 				<td><?php echo $Array['roster_dest']; ?></td>
+				<td><?php echo $Array['device']; ?></td>
 				<td><?php echo $Array['driver_name']; ?></td>
 				<td><?php echo $Array['schedule_depature']; ?></td>
 				<td><?php echo $Array['schedule_arrival']; ?></td>

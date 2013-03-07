@@ -4,7 +4,12 @@ class Rental_Detail_model extends CI_Model {
 	function __construct() {
         parent::__construct();
 		
-		$this->Field = array('rental_detail_id', 'rental_id', 'car_id', 'driver_id', 'rental_status_id', 'car_condition_id', 'date_out', 'date_in', 'price_per_day', 'destination', 'rental_duration', 'driver_fee', 'driver_duration', 'car_condition_out', 'car_condition_in', 'guaranty', 'user_accept_rent', 'user_accept_in');
+		$this->Field = array(
+			'rental_detail_id', 'rental_id', 'car_id', 'driver_id', 'rental_price_id', 'rental_status_id', 'car_condition_id', 'date_out', 'date_in',
+			'destination', 'driver_fee', 'driver_duration', 'car_condition_out', 'car_condition_in', 'guaranty', 'user_accept_rent', 'user_accept_in',
+			'rental_detail_jumlah', 'rental_detail_fuel', 'rental_detail_odometer', 'rental_detail_overtime', 'rental_detail_kerusakan',
+			'rental_detail_discount', 'rental_detail_cost'
+		);
     }
 	
 	function Update($Param) {
@@ -29,6 +34,19 @@ class Rental_Detail_model extends CI_Model {
 		return $Result;
 	}
 	
+	function UpdateCost($rental_detail_id) {
+		$Record = $this->GetByID(array('rental_detail_id' => $rental_detail_id));
+		
+		// Set Param
+		$UpdateParam['rental_detail_id'] = $rental_detail_id;
+		$UpdateParam['rental_detail_cost'] =
+			($Record['rental_detail_jumlah'] * $Record['rental_price_value'])
+			+ $Record['rental_detail_fuel'] + $Record['rental_detail_odometer'] + $Record['rental_detail_overtime'] + $Record['rental_detail_kerusakan']
+			+ $Record['driver_fee']
+			- $Record['rental_detail_discount'];
+		$this->Update($UpdateParam);
+	}
+	
 	function UpdateMaster($Param) {
 		$Result = array();
 		$ArrayField = $this->Field;
@@ -48,8 +66,10 @@ class Rental_Detail_model extends CI_Model {
 		
 		if (isset($Param['rental_detail_id'])) {
 			$SelectQuery  = "
-				SELECT RentalDetail.*
+				SELECT RentalDetail.*, RentalPrice.rental_price_value
 				FROM ".RENTAL_DETAIL." RentalDetail
+				LEFT JOIN ".RENTAL_PRICE." RentalPrice ON RentalPrice.rental_price_id = RentalDetail.rental_price_id
+				LEFT JOIN ".RENTAL_DURASI." RentalDurasi ON RentalDurasi.rental_durasi_id = RentalPrice.rental_durasi_id
 				WHERE RentalDetail.rental_detail_id = '".$Param['rental_detail_id']."'
 				LIMIT 1
 			";
@@ -57,7 +77,7 @@ class Rental_Detail_model extends CI_Model {
 		
 		$SelectResult = mysql_query($SelectQuery) or die(mysql_error());
 		if (false !== $Row = mysql_fetch_assoc($SelectResult)) {
-			$Array[] = $this->Sync($Row);
+			$Array = $this->Sync($Row);
 		}
 		
 		return $Array;
@@ -80,13 +100,15 @@ class Rental_Detail_model extends CI_Model {
 				RentalDetail.*, Driver.driver_name, Device.device, Rental.rental_no,
 				Rental.order_date, Rental.uang_muka, Rental.total_price, Rental.rental_desc,
 				Customer.customer_name, Customer.customer_address, Customer.customer_phone,
-				RentalStatus.rental_status_name
+				RentalStatus.rental_status_name, RentalDurasi.rental_durasi_name
 			FROM ".RENTAL_DETAIL." RentalDetail
 			LEFT JOIN ".RENTAL." Rental ON Rental.rental_id = RentalDetail.rental_id
 			LEFT JOIN ".CUSTOMER." Customer ON Customer.customer_id = Rental.customer_id
 			LEFT JOIN ".DRIVER." Driver ON Driver.driver_id = RentalDetail.driver_id
 			LEFT JOIN ".DEVICE." Device ON Device.id = RentalDetail.car_id
 			LEFT JOIN ".RENTAL_STATUS." RentalStatus ON RentalStatus.rental_status_id = RentalDetail.rental_status_id
+			LEFT JOIN ".RENTAL_PRICE." RentalPrice ON RentalPrice.rental_price_id = RentalDetail.rental_price_id
+			LEFT JOIN ".RENTAL_DURASI." RentalDurasi ON RentalDurasi.rental_durasi_id = RentalPrice.rental_durasi_id
 			WHERE 1 $StringSearch $StringRental $StringCompany $StringCustom $StringFilter
 			ORDER BY $StringSorting
 			LIMIT $PageOffset, $PageLimit
@@ -130,7 +152,7 @@ class Rental_Detail_model extends CI_Model {
 		$Cost = 0;
 		$ArrayRecord = $this->GetArray($Param);
 		foreach ($ArrayRecord as $Record) {
-			$Cost += ($Record['rental_duration'] * $Record['price_per_day']);
+			$Cost += $Record['rental_detail_cost'];
 		}
 		
 		if ($IsUpdate) {
@@ -158,7 +180,6 @@ class Rental_Detail_model extends CI_Model {
 	
 	function Sync($Row) {
 		$Record = StripArray($Row, array('date_out', 'date_in'));
-		$Record['detail_cost'] = $Record['rental_duration'] * $Record['price_per_day'];
 		
 		return $Record;
 	}

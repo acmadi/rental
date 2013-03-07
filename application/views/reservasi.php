@@ -3,8 +3,8 @@
 	
 	$ParamSchedule = array(
 		'limit' => 1000, 'company_id' => $company_id,
-		'filter' => '[{"type":"date","comparison":"gt","value":"' . date("m/d/Y", strtotime('-7 day')) . '","field":"Schedule.schedule_date"}]',
-		'sort' => '[{"property":"schedule_date","direction":"ASC"},{"property":"roster_dest","direction":"ASC"},{"property":"schedule_depature","direction":"ASC"}]'
+		'filter' => '[{"type":"date","comparison":"gt","value":"' . date("m/d/Y", strtotime('-4 week')) . '","field":"Schedule.schedule_date"}]',
+		'sort' => '[{"property":"schedule_date","direction":"DESC"},{"property":"roster_dest","direction":"ASC"},{"property":"schedule_depature","direction":"ASC"}]'
 	);
 	$ArraySchedule = $this->Schedule_model->GetArray($ParamSchedule);
 	$ArrayReservasiStatus = $this->Reservasi_Status_model->GetArray(array('limit' => 1000));
@@ -22,7 +22,7 @@
 				<option value="schedule_depature">Berangkat</option>
 				<option value="customer_name">Pelanggan</option>
 			</select>
-			<button class="btn btn-large Reset" type="button"><i class="splashy-sprocket_dark"></i></button>
+			<button class="btn btn-large Reset" type="button"><i class="splashy-refresh"></i></button>
 			<button class="btn btn-large Search" type="submit"><i class="icon-search"></i></button>
 		</div>
 		
@@ -50,7 +50,9 @@
 				</div>
 				<div class="control-group">
 					<label class="control-label" for="input_customer_name">Nama Pelanggan</label>
-					<div class="controls"><input type="text" id="input_customer_name" name="customer_name" placeholder="Nama Pelanggan" class="span10" rel="twipsy" data-placement="right" data-original-title="Nama Lengkap Pelanggan" /></div>
+					<div class="controls">
+						<input type="text" id="input_customer_name" name="customer_name" placeholder="Nama Pelanggan" class="span10 customer-typeahead" rel="twipsy" data-placement="right" data-original-title="Nama Lengkap Pelanggan" data-link="<?php echo $this->config->item('base_url'); ?>/index.php/typeahead" />
+					</div>
 				</div>
 				<div class="control-group">
 					<label class="control-label" for="input_customer_address">Alamat</label>
@@ -79,6 +81,10 @@
 					<div class="controls"><input type="text" id="input_reservasi_note" name="reservasi_note" placeholder="Catatan" class="span10" rel="twipsy" data-placement="right" data-original-title="Catatan Reservasi" /></div>
 				</div>
 				<div class="control-group">
+					<label class="control-label" for="input_reservasi_seat">No Kursi</label>
+					<div class="controls"><input type="text" id="input_reservasi_seat" name="reservasi_seat" placeholder="No Kursi" class="span10" rel="twipsy" data-placement="right" data-original-title="Gunakan tanda koma sebagai pemisah antar no kursi" /></div>
+				</div>
+				<div class="control-group">
 					<label class="control-label">Status</label>
 					<div class="controls">
 						<select name="reservasi_status_id">
@@ -98,6 +104,14 @@
 
 <script>
 $(document).ready(function() {
+	TypeAhead.Customer($('.customer-typeahead'), {
+		CallBack: function(Record) {
+			$('#WindowReservasi input[name="customer_name"]').val(Record.customer_name);
+			$('#WindowReservasi input[name="customer_phone"]').val(Record.customer_mobile);
+			$('#WindowReservasi textarea[name="customer_address"]').val(Record.customer_address);
+		}
+	});
+	
 	var Local = {
 		LoadGrid: function(Param) {
 			Param.PageNo = (Param.PageNo == null) ? $('#CntReservasi input[name="PAGE_ACTIVE"]').val() : Param.PageNo;
@@ -107,7 +121,7 @@ $(document).ready(function() {
 			var GridParam = {
 				start: (Param.PageNo - 1) * PageCount,
 				limit: PageCount, page: Param.PageNo, filter: PageFilter,
-				sort: '[{"property":"schedule_date","direction":"ASC"},{"property":"roster_dest","direction":"ASC"},{"property":"schedule_depature","direction":"ASC"},{"property":"customer_name","direction":"ASC"}]'
+				sort: '[{"property":"schedule_date","direction":"DESC"},{"property":"roster_dest","direction":"ASC"},{"property":"schedule_depature","direction":"ASC"},{"property":"customer_name","direction":"ASC"}]'
 			}
 			
 			$.ajax({
@@ -129,6 +143,7 @@ $(document).ready(function() {
 				$('#WindowReservasi input[name="reservasi_price"]').val(Record.reservasi_price);
 				$('#WindowReservasi input[name="reservasi_total"]').val(Record.reservasi_total);
 				$('#WindowReservasi input[name="reservasi_note"]').val(Record.reservasi_note);
+				$('#WindowReservasi input[name="reservasi_seat"]').val(Record.reservasi_seat);
 				$('#WindowReservasi select[name="schedule_id"]').val(Record.schedule_id);
 				$('#WindowReservasi select[name="reservasi_status_id"]').val(Record.reservasi_status_id);
 				$('#WindowReservasi textarea[name="customer_address"]').val(Record.customer_address);
@@ -149,10 +164,31 @@ $(document).ready(function() {
 				Local.LoadGrid({ PageNo: PageNo });
 				$('#CntReservasi input[name="PAGE_ACTIVE"]').val(PageNo);
 			});
+		},
+		UpdatePrice: function() {
+			var capacity = $('#WindowReservasi input[name="reservasi_capacity"]').val();
+			
+			$.ajax({
+				type: "POST", url: Web.HOST + '/index.php/schedule/action',
+				data: {
+					Action: 'GetScheduleByID',
+					schedule_id: $('#WindowReservasi select[name="schedule_id"]').val()
+				}
+			}).done(function( RawResult ) {
+				eval('var Result = ' + RawResult);
+				$('#WindowReservasi input[name="reservasi_price"]').val(Result.roster_price);
+				
+				if (capacity.length != 0) {
+					var total = capacity * Result.roster_price;
+					$('#WindowReservasi input[name="reservasi_total"]').val(total);
+				}
+			});
 		}
 	}
 	
 	// Form Entry Reservasi
+	$('#WindowReservasi select[name="schedule_id"]').blur(function() { Local.UpdatePrice(); });
+	$('#WindowReservasi input[name="reservasi_capacity"]').blur(function() { Local.UpdatePrice(); });
 	$('#CntReservasi .WindowReservasiAdd').click(function() {
 		$('#WindowReservasi').modal();
 		$('#WindowReservasi input[name="reservasi_id"]').val(0);
@@ -181,7 +217,7 @@ $(document).ready(function() {
 			} else {
 				$('.alert').remove();
 				var Content = '<div class="alert"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>Warning! </strong>' + Result.Message + '</div>';
-				$('#WindowReservasi form').prepend(Content);
+				$('#WindowReservasi .modal-body').prepend(Content);
 			}
 		});
 	});

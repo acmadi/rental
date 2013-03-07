@@ -17,15 +17,8 @@ class driver extends CI_Controller {
 		if ($Action == 'UpdateDriver') {
 			$_POST['company_id'] = $this->User_model->GetCompanyID();
 			$Result = $this->Driver_model->Update($_POST);
-		/*
-		// Will remove is no issue until 1 Maret 2013
-		} else if ($Action == 'UpdateListDriver') {
-			$ArrayTemp = json_decode($_POST['RawRecord']);
-			foreach ($ArrayTemp as $ArrayObject) {
-				$Array = (array)$ArrayObject;
-				$Result = $this->Driver_model->Update($Array);
-			}
-		/*	*/
+		} else if ($Action == 'GetDriverByID') {
+			$Result = $this->Driver_model->GetByID($_POST);
 		} else if ($Action == 'DeteleDriverByID') {
 			$Result = $this->Driver_model->Delete($_POST);
 		}

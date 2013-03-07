@@ -19,15 +19,6 @@ class customer extends CI_Controller {
 			$Result = $this->Customer_model->Update($_POST);
 		} else if ($Action == 'GetCustomerByID') {
 			$Result = $this->Customer_model->GetByID($_POST);
-		/*
-		// Will remove is no issue until 1 Maret 2013
-		} else if ($Action == 'UpdateListCustomer') {
-			$ArrayTemp = json_decode($_POST['RawRecord']);
-			foreach ($ArrayTemp as $ArrayObject) {
-				$Array = (array)$ArrayObject;
-				$Result = $this->Customer_model->Update($Array);
-			}
-		/*	*/
 		} else if ($Action == 'DeteleCustomerByID') {
 			$Result = $this->Customer_model->Delete($_POST);
 		}

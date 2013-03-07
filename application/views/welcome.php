@@ -7,12 +7,16 @@
 	// Get Menu
 	$ParamCompany = array('filter' => '[{"type":"numeric","comparison":"eq","value":' . $company_id . ',"field":"company_id"},{"type":"numeric","comparison":"eq","value":1,"field":"menu_company_active"}]');
 	$MenuCompany = $this->Menu_Item_model->GetTree($ParamCompany);
+	
+	// Get Array Merge
+	$ArrayCalender = $this->Merge_model->GetArray(array('month' => date("m")));
+	$ArrayConfig['Calender'] = $ArrayCalender;
 ?>
 
 <?php $this->load->view( 'common/meta' ); ?>
 
 <body class="ptrn_e menu_hover">
-	<div id="Config"><?php echo json_encode($ArrayConfig); ?></div>
+	<div id="Config" class="hidden"><?php echo json_encode($ArrayConfig); ?></div>
 	<div id="loading_layer" style="display:none"><img src="<?php echo $this->config->item('base_url'); ?>/static/img/ajax_loader.gif" alt="" /></div>
 	
 	<?php $this->load->view( 'common/header' ); ?>
@@ -61,6 +65,9 @@
 					<div class="tab-content">
 						<div class="tab-pane active" id="tab1">
 							<div class="row-fluid">
+								<h2 class="heading">Kalender</h2>
+								<div style="margin: 0 0 50px 0;" id="calendar"></div>
+				
 								<h2>Mobil Kembali</h2>
 								<div class="rental" style="margin: 0 0 50px 0;"><div class="datagrid"></div></div>
 								
@@ -71,6 +78,75 @@
 					</div>
 				</div>
 			</div>
+		</div>
+	</div>
+	
+	<div id="WindowCalenderRental" class="modal modal-big hide fade" tabindex="-1" role="dialog" aria-labelledby="windowTitleLabel" aria-hidden="true">
+		<div class="modal-header">
+			<a href="#" class="close" data-dismiss="modal">&times;</a>
+			<h3>Rental</h3>
+		</div>
+		<div class="modal-body">
+			<form class="form-horizontal">
+				<div class="control-group">
+					<label class="control-label">Rental No</label>
+					<div class="controls"><input type="text" name="rental_no" readonly="readonly" /></div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">Tanggal Keluar</label>
+					<div class="controls"><input type="text" name="date_out" readonly="readonly" /></div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">Tanggal Kembali</label>
+					<div class="controls"><input type="text" name="date_in" readonly="readonly" /></div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">Sopir</label>
+					<div class="controls"><input type="text" name="driver_name" readonly="readonly" /></div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">Nama Pelanggan</label>
+					<div class="controls"><input type="text" name="customer_name" readonly="readonly" /></div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">No Telepon</label>
+					<div class="controls"><input type="text" name="customer_phone" readonly="readonly" /></div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">Tujuan</label>
+					<div class="controls"><input type="text" name="destination" readonly="readonly" /></div>
+				</div>
+			</form>
+		</div>
+	</div>
+	<div id="WindowCalenderTravel" class="modal modal-big hide fade" tabindex="-1" role="dialog" aria-labelledby="windowTitleLabel" aria-hidden="true">
+		<div class="modal-header">
+			<a href="#" class="close" data-dismiss="modal">&times;</a>
+			<h3>Travel</h3>
+		</div>
+		<div class="modal-body">
+			<form class="form-horizontal">
+				<div class="control-group">
+					<label class="control-label">Tanggal Jadwal</label>
+					<div class="controls"><input type="text" name="schedule_date" readonly="readonly" /></div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">Tujuan</label>
+					<div class="controls"><input type="text" name="roster_dest" readonly="readonly" /></div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">Sopir</label>
+					<div class="controls"><input type="text" name="driver_name" readonly="readonly" /></div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">Berangkat</label>
+					<div class="controls"><input type="text" name="schedule_depature" readonly="readonly" /></div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">Sampai</label>
+					<div class="controls"><input type="text" name="schedule_arrival" readonly="readonly" /></div>
+				</div>
+			</form>
 		</div>
 	</div>
 	
@@ -109,10 +185,46 @@
 						$('#tab1 .reservasi .datagrid').html(ResponseHtml);
 						$('#tab1 .reservasi .datagrid .action').hide();
 					});
+				},
+				Calender: function() {
+					for (var i = 0; i < Config.Calender.length; i++) {
+						Config.Calender[i].start = eval(Config.Calender[i].start_text);
+					}
+					
+					var calendar = $('#calendar').fullCalendar({
+						aspectRatio: 2, selectable: true, selectHelper: true,
+						editable: false, theme: false, eventColor: '#bcdeee',
+						header: { left: 'prev next', center: 'title,today', right: 'month' },
+						buttonText: { prev: '<i class="icon-chevron-left cal_prev" />', next: '<i class="icon-chevron-right cal_next" />' },
+						events: Config.Calender,
+						eventClick: function(event) {
+							eval('var record = ' + event.desc);
+							if (event.is_rental) {
+								$('#WindowCalenderRental input[name="rental_no"]').val(record.rental_no);
+								$('#WindowCalenderRental input[name="date_out"]').val(Func.SwapDate(record.date_out));
+								$('#WindowCalenderRental input[name="date_in"]').val(Func.SwapDate(record.date_in));
+								$('#WindowCalenderRental input[name="driver_name"]').val(record.driver_name);
+								$('#WindowCalenderRental input[name="customer_name"]').val(record.customer_name);
+								$('#WindowCalenderRental input[name="customer_phone"]').val(record.customer_phone);
+								$('#WindowCalenderRental input[name="destination"]').val(record.destination);
+								$('#WindowCalenderRental').modal();
+							} else if (event.is_travel) {
+								$('#WindowCalenderTravel input[name="schedule_date"]').val(Func.SwapDate(record.schedule_date));
+								$('#WindowCalenderTravel input[name="roster_dest"]').val(record.roster_dest);
+								$('#WindowCalenderTravel input[name="driver_name"]').val(record.driver_name);
+								$('#WindowCalenderTravel input[name="schedule_depature"]').val(record.schedule_depature);
+								$('#WindowCalenderTravel input[name="schedule_arrival"]').val(record.schedule_arrival);
+								$('#WindowCalenderTravel').modal();
+							}
+							
+							return false;
+						}
+					})
 				}
 			}
 			Local.LoadGridDriver({});
 			Local.LoadGridReservasi({});
+			Local.Calender();
 			
 			// Log out
 			$('#mainnav .Logout').click(function() {

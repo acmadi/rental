@@ -5,7 +5,7 @@ class Schedule_model extends CI_Model {
         parent::__construct();
 		
 		$this->ArrayDay = $this->Day_model->GetArray(array('IsHash' => 1));
-		$this->Field = array('schedule_id', 'roster_id', 'driver_id', 'schedule_date', 'schedule_depature', 'schedule_arrival', 'company_id');
+		$this->Field = array('schedule_id', 'roster_id', 'car_id', 'driver_id', 'schedule_date', 'schedule_depature', 'schedule_arrival', 'company_id');
     }
 	
 	function Update($Param) {
@@ -35,7 +35,7 @@ class Schedule_model extends CI_Model {
 		
 		if (isset($Param['schedule_id'])) {
 			$SelectQuery  = "
-				SELECT Schedule.*, Roster.roster_dest, Driver.driver_name, Company.company_name, Company.company_address
+				SELECT Schedule.*, Roster.roster_dest, Roster.roster_price, Driver.driver_name, Company.company_name, Company.company_address
 				FROM ".SCHEDULE." Schedule
 				LEFT JOIN ".ROSTER." Roster ON Roster.roster_id = Schedule.roster_id
 				LEFT JOIN ".DRIVER." Driver ON Driver.driver_id = Schedule.driver_id
@@ -55,8 +55,8 @@ class Schedule_model extends CI_Model {
 	
 	function GetArray($Param = array()) {
 		$Array = array();
-//		$StringSearch = (isset($Param['NameLike'])) ? "AND Schedule.schedule_date LIKE '%" . $Param['NameLike'] . "%'"  : '';
 		$StringCompany = (!empty($Param['company_id'])) ? "AND Schedule.company_id = '" . $Param['company_id'] . "'"  : '';
+		$StringCustom = (!empty($Param['StringCustom'])) ? $Param['StringCustom']  : '';
 		$StringFilter = GetStringFilter($Param);
 		
 		$PageOffset = (isset($Param['start']) && !empty($Param['start'])) ? $Param['start'] : 0;
@@ -64,11 +64,12 @@ class Schedule_model extends CI_Model {
         $StringSorting = (isset($Param['sort'])) ? GetStringSorting($Param['sort']) : 'schedule_date ASC';
 		
 		$SelectQuery = "
-			SELECT Schedule.*, Roster.roster_dest, Driver.driver_name
+			SELECT Schedule.*, Roster.roster_dest, Roster.roster_price, Device.device, Driver.driver_name
 			FROM ".SCHEDULE." Schedule
 			LEFT JOIN ".ROSTER." Roster ON Roster.roster_id = Schedule.roster_id
+			LEFT JOIN ".DEVICE." Device ON Device.id = Schedule.car_id
 			LEFT JOIN ".DRIVER." Driver ON Driver.driver_id = Schedule.driver_id
-			WHERE 1 $StringCompany $StringFilter
+			WHERE 1 $StringCompany $StringCustom $StringFilter
 			ORDER BY $StringSorting
 			LIMIT $PageOffset, $PageLimit
 		";
@@ -83,16 +84,17 @@ class Schedule_model extends CI_Model {
 	function GetCount($Param = array()) {
 		$TotalRecord = 0;
 		
-//		$StringSearch = (isset($Param['NameLike'])) ? "AND Schedule.schedule_date LIKE '%" . $Param['NameLike'] . "%'"  : '';
 		$StringCompany = (!empty($Param['company_id'])) ? "AND Schedule.company_id = '" . $Param['company_id'] . "'"  : '';
+		$StringCustom = (!empty($Param['StringCustom'])) ? $Param['StringCustom']  : '';
 		$StringFilter = GetStringFilter($Param);
 		
 		$SelectQuery = "
 			SELECT COUNT(*) AS TotalRecord
 			FROM ".SCHEDULE." Schedule
 			LEFT JOIN ".ROSTER." Roster ON Roster.roster_id = Schedule.roster_id
+			LEFT JOIN ".DEVICE." Device ON Device.id = Schedule.car_id
 			LEFT JOIN ".DRIVER." Driver ON Driver.driver_id = Schedule.driver_id
-			WHERE 1 $StringCompany $StringFilter
+			WHERE 1 $StringCompany $StringCustom $StringFilter
 		";
 		$SelectResult = mysql_query($SelectQuery) or die(mysql_error());
 		while (false !== $Row = mysql_fetch_assoc($SelectResult)) {
@@ -198,5 +200,47 @@ class Schedule_model extends CI_Model {
 			$Record['schedule_title'] = GetFormatDateCommon($Record['schedule_date']) . ' ' . $Record['roster_dest'] . ' ' . $Record['schedule_depature'];
 		
 		return $Record;
+	}
+	
+	function IsUsed($Param) {
+		$ParamArray = array(
+			'filter' => '['.
+				'{"type":"numeric","comparison":"not","field":"Schedule.schedule_id","value":"'.$Param['schedule_id'].'"},'.
+				'{"type":"numeric","comparison":"eq","field":"Schedule.car_id","value":"'.$Param['car_id'].'"},'.
+				'{"type":"numeric","comparison":"eq","field":"Schedule.schedule_date","value":"'.$Param['schedule_date'].'"}'.
+			']'
+		);
+		$ArraySchedule = $this->GetArray($ParamArray);
+		
+		// Current Record
+		$current_departure = GetInteger($Param['schedule_depature']);
+		$current_arrival = GetInteger($Param['schedule_arrival']);
+		
+		$IsUsed = 0;
+		foreach ($ArraySchedule as $Schedule) {
+			$schedule_depature = GetInteger($Schedule['schedule_depature']);
+			$schedule_arrival = GetInteger($Schedule['schedule_arrival']);
+			
+			// for dubuging purpose
+			// echo "$schedule_depature == $current_departure || $schedule_arrival == $current_departure<br />";
+			
+			// Jam Berangkat diantara Berangkat & Sampai
+			if ($schedule_depature < $current_departure && $schedule_arrival > $current_departure) {
+				$IsUsed = 1;
+				break;
+			}
+			// Jam Sampai diantara Berangkat & Sampai
+			else if ($schedule_depature < $current_arrival && $schedule_arrival > $current_arrival) {
+				$IsUsed = 1;
+				break;
+			}
+			// Jam Berangkat / Sampai = Berangkat / Sampai
+			else if ($schedule_depature == $current_departure || $schedule_arrival == $current_arrival) {
+				$IsUsed = 1;
+				break;
+			}
+		}
+		
+		return array('Result' => $IsUsed);
 	}
 }

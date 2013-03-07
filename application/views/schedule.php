@@ -1,5 +1,6 @@
 <?php
 	$company_id = $this->User_model->GetCompanyID();
+	$ArrayDevice = $this->Device_model->GetArray(array('limit' => 1000, 'company_id' => $company_id));
 	
 	$ParamRoster = array(
 		'limit' => 1000, 'company_id' => $company_id,
@@ -20,7 +21,7 @@
 				<option value="roster_dest">Tujuan</option>
 				<option value="driver_name">Sopir</option>
 			</select>
-			<button class="btn btn-large Reset" type="button"><i class="splashy-sprocket_dark"></i></button>
+			<button class="btn btn-large Reset" type="button"><i class="splashy-refresh"></i></button>
 			<button class="btn btn-large Search" type="submit"><i class="icon-search"></i></button>
 		</div>
 		
@@ -45,6 +46,14 @@
 						</select>
 					</div>
 				</div>
+					<div class="control-group">
+						<label class="control-label">Mobil</label>
+						<div class="controls">
+							<select name="car_id">
+								<?php echo ShowOption(array('Array' => $ArrayDevice, 'ArrayID' => 'id', 'ArrayTitle' => 'device')); ?>
+							</select>
+						</div>
+					</div>
 				<div class="control-group">
 					<label class="control-label">Sopir</label>
 					<div class="controls">
@@ -111,6 +120,7 @@ $(document).ready(function() {
 				$('#WindowSchedule input[name="schedule_depature"]').val(Record.schedule_depature);
 				$('#WindowSchedule input[name="schedule_arrival"]').val(Record.schedule_arrival);
 				$('#WindowSchedule select[name="roster_id"]').val(Record.roster_id);
+				$('#WindowSchedule select[name="car_id"]').val(Record.car_id);
 				$('#WindowSchedule select[name="driver_id"]').val(Record.driver_id);
 				$('#WindowSchedule').modal();
 			});
@@ -166,7 +176,7 @@ $(document).ready(function() {
 			} else {
 				$('#CntSchedule .alert').remove();
 				var Content = '<div class="alert"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>Warning! </strong>' + Result.Message + '</div>';
-				$('#WindowSchedule form').prepend(Content);
+				$('#WindowSchedule .modal-body').prepend(Content);
 			}
 		});
 	});
@@ -175,7 +185,7 @@ $(document).ready(function() {
 	});
 	Func.InitForm({
 		Container: '#WindowSchedule',
-		rule: { roster_id: { required: true }, driver_id: { required: true }, schedule_date: { required: true } }
+		rule: { roster_id: { required: true }, car_id: { required: true }, car_id: { required: true }, schedule_date: { required: true } }
 	});
 	
 	// Load Feature Grid

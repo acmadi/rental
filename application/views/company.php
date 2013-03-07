@@ -14,7 +14,7 @@
 				<option value="company_address">Alamat</option>
 				<option value="company_phone">Telepon</option>
 			</select>
-			<button class="btn btn-large Reset" type="button"><i class="splashy-sprocket_dark"></i></button>
+			<button class="btn btn-large Reset" type="button"><i class="splashy-refresh"></i></button>
 			<button class="btn btn-large Search" type="submit"><i class="icon-search"></i></button>
 		</div>
 		

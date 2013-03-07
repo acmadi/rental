@@ -1,5 +1,11 @@
 <?php
 	$ArrayRentalStatus = $this->Rental_Status_model->GetArray(array('limit' => 200));
+	// Hanya Batal dan Kembali sebagai Rental Status
+	foreach ($ArrayRentalStatus as $Key => $Array) {
+		if (! in_array($Array['rental_status_name'], array('Batal', 'Kembali'))) {
+			unset($ArrayRentalStatus[$Key]);
+		}
+	}
 ?>
 <div id="CntRentalKembali" class="row-fluid">
 	<input type="hidden" name="PAGE_COUNT" value="<?php echo PAGE_COUNT; ?>" />
@@ -13,7 +19,7 @@
 				<option value="rental_no">No Sewa</option>
 				<option value="customer_name">Nama Pelanggan</option>
 			</select>
-			<button class="btn btn-large Reset" type="button"><i class="splashy-sprocket_dark"></i></button>
+			<button class="btn btn-large Reset" type="button"><i class="splashy-refresh"></i></button>
 			<button class="btn btn-large Search" type="submit"><i class="icon-search"></i></button>
 		</div>
 	</div>

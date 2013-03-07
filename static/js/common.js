@@ -219,6 +219,10 @@ var Site = {
     }
 }
 
+var Combo = {
+	RentalPrice: { Value: 'rental_price_id', Display: 'rental_durasi_name' }
+}
+
 var Func = {
 	ArrayToJson: function(Data) {
 		var Temp = '';
@@ -374,6 +378,99 @@ var Func = {
 		// Twipsy
 		$(p.Container + ' input[rel=twipsy], ' + p.Container + ' select[rel=twipsy], ' + p.Container + ' textarea[rel=twipsy]').focus(function() { $(this).twipsy('show'); });
 		$(p.Container + ' input[rel=twipsy], ' + p.Container + ' select[rel=twipsy], ' + p.Container + ' textarea[rel=twipsy]').blur(function() { $(this).twipsy('hide'); });
+	},
+	SetValue: function(Param) {
+		$.ajax({
+			type: "POST", url: Web.HOST + '/index.php/combo', data: Param.data
+		}).done(function( RawResult ) {
+			eval('var Result = ' + RawResult);
+			
+			var Temp = '<option>-</option>';
+			for (var i = 0; i < Result.length; i++) {
+				Temp += '<option value="' + Result[i][Combo[Param.data.Action]['Value']] + '">' + Result[i][Combo[Param.data.Action]['Display']] + '</option>';
+			}
+			Param.combo.html(Temp);
+			
+			if (Param.value != null)
+				Param.combo.val(Param.value);
+		});
+	}
+}
+
+var TypeAhead = {
+	Customer: function(Input, Param) {
+		Input.typeahead({
+			source: function(query, process) {
+				return $.ajax({
+					type: 'post',
+					url: Input.attr('data-link'),
+					data: { Action: 'Customer', NameLike: query },
+					success: function(json) {
+						if (Input.next().length == 0) {
+							Input.parent().append('<div style="position: absolute;"><ul class="typeahead dropdown-menu" style="display: block; top: -3px; left: 0px;"></ul></div>');
+						} else {
+							Input.next().show();
+						}
+						
+						var content = '';
+						eval('option = ' + json);
+						for (var i = 0; i < option.options.length; i++) {
+							content += '<li style="width: 405px;" data-value=\'' + Func.ObjectToJson(option.options[i]) + '\'><a href="#">';
+							content += '<div style="float: left; width: 150px;">' + option.options[i].customer_name + '</div>';
+							content += '<div style="float: left; width: 125px;">' + option.options[i].customer_address + '</div>';
+							content += '<div style="float: left; width: 100px;">' + option.options[i].customer_mobile + '</div>';
+							content += '<div class="clear"></div>';
+							content += '</a></li>';
+						}
+						Input.next('div').children('ul').html(content);
+						
+						// Hover
+						Input.next('div').children('ul').children('li').hover(
+							function() {
+								$(this).addClass('active');
+							},
+							function() {
+								$(this).removeClass('active');
+							}
+						);
+						
+						// Click
+						Input.next('div').children('ul').children('li').click(function() {
+							var RawRecord = $(this).attr('data-value');
+							Input.next().hide();
+							
+							eval('var Record = ' + RawRecord);
+							Input.val(Record.customer_name);
+							
+							if (Param.CallBack != null) {
+								Param.CallBack(Record);
+							}
+						});
+						
+						// Focus
+						Input.off('focus');
+						Input.focus(function() {
+							
+							if (content.length > 0) {
+								Input.next().show();
+							} else {
+								Input.next().hide();
+							}
+						});
+						
+						// Blur
+						Input.off('blur');
+						Input.blur(function() {
+							setTimeout(function() {
+								Input.next().hide();
+							}, 100);
+						});
+						
+						return true;
+					}
+				});
+			}
+		});
 	}
 }
 

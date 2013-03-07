@@ -211,9 +211,11 @@ if (! function_exists('GetStringFilter')) {
 						if ($Array->comparison == 'eq') {
 							$StringFilter .= "AND " . $Field." = '".$Array->value."' ";
 						} else if ($Array->comparison == 'lt') {
-							$StringFilter .= "AND " . $Field." <= '".$Array->value."' ";
+							$StringFilter .= "AND " . $Field." < '".$Array->value."' ";
 						} else if ($Array->comparison == 'gt') {
-							$StringFilter .= "AND " . $Field." >= '".$Array->value."' ";
+							$StringFilter .= "AND " . $Field." > '".$Array->value."' ";
+						} else if ($Array->comparison == 'not') {
+							$StringFilter .= "AND " . $Field." != '".$Array->value."' ";
 						}
 					} else if ($Array->type == 'date') {
 						if ($Array->comparison == 'eq') {
@@ -408,6 +410,18 @@ if (! function_exists('GetArrayFromFileUpload')) {
 if (! function_exists('EncriptPassword')) {
 	function EncriptPassword($Value) {
 		return md5(sha1(SHA_SECRET . ':' . $Value));
+	}
+}
+
+if (! function_exists('GetInteger')) {
+	function GetInteger($Value) {
+		$Value = preg_replace('/[^0-9]/i', '', $Value);
+		if (empty($Value)) {
+			$Value = 0;
+		}
+		
+		$Value = intval($Value);
+		return $Value;
 	}
 }
 ?>

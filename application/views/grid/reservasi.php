@@ -17,7 +17,7 @@
 			<th>Telepon</th>
 			<th>Kapasitas</th>
 			<th>Total</th>
-			<th>Catatan</th>
+			<th>No Kursi</th>
 			<th>Status</th>
 			<th class="action" style="text-align: center; width: 140px;">Aksi</th>
 		</tr>
@@ -33,7 +33,7 @@
 				<td><?php echo $Array['customer_phone']; ?></td>
 				<td><?php echo $Array['reservasi_capacity']; ?></td>
 				<td><?php echo $Array['reservasi_total']; ?></td>
-				<td><?php echo $Array['reservasi_note']; ?></td>
+				<td><?php echo $Array['reservasi_seat']; ?></td>
 				<td><?php echo $Array['reservasi_status_name']; ?></td>
 				<td class="action center">
 					<a class="cursor WindowReservasiEdit"><img src="<?php echo $this->config->item('base_url') . '/static/img/btn_edit.png'; ?>" /></a>
