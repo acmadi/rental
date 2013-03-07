@@ -37,8 +37,9 @@
 			<a href="#" class="close" data-dismiss="modal">&times;</a>
 			<h3>Form Reservasi</h3>
 		</div>
-		<div class="modal-body">
-			<form class="form-horizontal">
+		<div class="modal-body" style="padding-left: 0px;">
+			<div class="pad-alert" style="padding-left: 15px;"></div>
+			<form class="form-horizontal" style="padding-left: 0px;">
 				<input type="hidden" name="reservasi_id" value="0" />
 				<div class="control-group">
 					<label class="control-label">Jadwal</label>
@@ -217,7 +218,7 @@ $(document).ready(function() {
 			} else {
 				$('.alert').remove();
 				var Content = '<div class="alert"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>Warning! </strong>' + Result.Message + '</div>';
-				$('#WindowReservasi .modal-body').prepend(Content);
+				$('#WindowReservasi .modal-body .pad-alert').prepend(Content);
 			}
 		});
 	});

@@ -415,10 +415,10 @@ var TypeAhead = {
 						var content = '';
 						eval('option = ' + json);
 						for (var i = 0; i < option.options.length; i++) {
-							content += '<li style="width: 405px;" data-value=\'' + Func.ObjectToJson(option.options[i]) + '\'><a href="#">';
-							content += '<div style="float: left; width: 150px;">' + option.options[i].customer_name + '</div>';
-							content += '<div style="float: left; width: 125px;">' + option.options[i].customer_address + '</div>';
-							content += '<div style="float: left; width: 100px;">' + option.options[i].customer_mobile + '</div>';
+							content += '<li style="width: 505px;" data-value=\'' + Func.ObjectToJson(option.options[i]) + '\'><a href="#">';
+							content += '<div style="float: left; width: 175px;">' + option.options[i].customer_name + '</div>';
+							content += '<div style="float: left; width: 175px;">' + option.options[i].customer_address + '</div>';
+							content += '<div style="float: left; width: 125px;">' + option.options[i].customer_mobile + '</div>';
 							content += '<div class="clear"></div>';
 							content += '</a></li>';
 						}

@@ -16,6 +16,8 @@ class reservasi extends CI_Controller {
 		
 		if ($Action == 'UpdateReservasi') {
 			$_POST['company_id'] = $this->User_model->GetCompanyID();
+			$this->Customer_model->CheckRecord($_POST);
+			
 			$IsFreeSeat = $this->Reservasi_model->IsFreeSeat($_POST);
 			if ($IsFreeSeat == 1) {
 				$Result = $this->Reservasi_model->Update($_POST);

@@ -39,6 +39,16 @@ class Customer_model extends CI_Model {
 				WHERE Customer.customer_id = '".$Param['customer_id']."'
 				LIMIT 1
 			";
+		} else if (isset($Param['customer_name']) && isset($Param['customer_address']) && isset($Param['customer_mobile'])) {
+			$SelectQuery  = "
+				SELECT Customer.*
+				FROM ".CUSTOMER." Customer
+				WHERE
+					Customer.customer_name = '".$Param['customer_name']."'
+					AND Customer.customer_address = '".$Param['customer_address']."'
+					AND Customer.customer_mobile = '".$Param['customer_mobile']."'
+				LIMIT 1
+			";
 		}
 		
 		$SelectResult = mysql_query($SelectQuery) or die(mysql_error());
@@ -122,5 +132,18 @@ class Customer_model extends CI_Model {
         $Result['Message'] = 'Data berhasil dihapus.';
 		
 		return $Result;
+	}
+	
+	function CheckRecord($Param) {
+		$CustomerParam = array(
+			'customer_name' => trim($Param['customer_name']),
+			'customer_address' => trim($Param['customer_address']),
+			'customer_mobile' => trim($Param['customer_phone'])
+		);
+		
+		$Record = $this->GetByID($CustomerParam);
+		if (count($Record) == 0) {
+			$this->Update($CustomerParam);
+		}
 	}
 }

@@ -239,6 +239,12 @@ class Schedule_model extends CI_Model {
 				$IsUsed = 1;
 				break;
 			}
+			// Jam Berangkat	/	Sampai sebelum	dan sesudah Berangkat	/	Sampai
+			// 07:00			/	11:00			dan			08:00		/	10:00
+			else if ($schedule_depature > $current_departure && $schedule_arrival < $current_arrival) {
+				$IsUsed = 1;
+				break;
+			}
 		}
 		
 		return array('Result' => $IsUsed);
