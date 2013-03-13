@@ -126,6 +126,7 @@ $(document).ready(function() {
 		}
 		
 		var ParamAjax = Site.Form.GetValue('WindowCustomer form');
+		ParamAjax.RequestApi = 1;
 		ParamAjax.Action = 'UpdateCustomer';
 		
 		$.ajax({

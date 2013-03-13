@@ -21,10 +21,14 @@ if ($_SERVER['SERVER_NAME'] == 'localhost') {
 	$config['base_url']		= 'http://localhost'.$PortAddress.'/rental/trunk';
 	$config['login_url']	= 'http://localhost'.$PortAddress.'/lintasgps/hrpc.php';
 	$config['base_path']	= realpath(dirname(__FILE__) . '/../..');
+	
+	$config['indocrm_api']	= 'http://localhost'.$PortAddress.'/indocrm/trunk/index.php/api/';
 } else if ($_SERVER['SERVER_NAME'] == 'lintasgps.com') {
 	$config['base_url']		= 'http://lintasgps.com/rental';
 	$config['login_url']	= 'http://lintasgps.com/hrpc.php';
 	$config['base_path']    = realpath(dirname(__FILE__) . '/../..');
+	
+	$config['indocrm_api']	= 'http://www.indocrm.com/index.php/api/';
 } else {
 	echo 'Please set up config.';
 	exit;

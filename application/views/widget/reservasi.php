@@ -72,6 +72,7 @@
 				
 				var ParamAjax = Site.Form.GetValue('WindowWidget form');
 				ParamAjax.Action = 'UpdateWidgetReservasi';
+				ParamAjax.tanggal = Func.SwapDate(ParamAjax.tanggal);
 				
 				$.ajax({
 					type: "POST", url: Web.HOST + '/index.php/widget/reservasi/action', data: ParamAjax

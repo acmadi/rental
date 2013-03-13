@@ -43,6 +43,14 @@
 					<label class="control-label" for="input_company_phone">Telepon</label>
 					<div class="controls"><input type="text" id="input_company_phone" name="company_phone" placeholder="Telepon" rel="twipsy" data-placement="right" data-original-title="Telepon Perusahaan" /></div>
 				</div>
+				<div class="control-group">
+					<label class="control-label" for="input_indocrm_client_id">Client ID IndoCrm</label>
+					<div class="controls"><input type="text" id="input_indocrm_client_id" name="indocrm_client_id" placeholder="Client ID IndoCrm" rel="twipsy" data-placement="right" data-original-title="Client ID IndoCrm" /></div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="input_indocrm_privatekey">Private Key IndoCrm</label>
+					<div class="controls"><input type="text" id="input_indocrm_privatekey" name="indocrm_privatekey" placeholder="Private Key IndoCrm" rel="twipsy" data-placement="right" data-original-title="Private Key IndoCrm" /></div>
+				</div>
 				<div class="hidden"><input type="submit" name="Submit" value="Submit" /></div>
 			</form>
 		</div>
@@ -149,6 +157,8 @@ $(document).ready(function() {
 				$('#WindowCompany input[name="company_name"]').val(Record.company_name);
 				$('#WindowCompany input[name="company_address"]').val(Record.company_address);
 				$('#WindowCompany input[name="company_phone"]').val(Record.company_phone);
+				$('#WindowCompany input[name="indocrm_client_id"]').val(Record.indocrm_client_id);
+				$('#WindowCompany input[name="indocrm_privatekey"]').val(Record.indocrm_privatekey);
 				$('#WindowCompany').modal();
 			});
 			$('#CntCompany .WindowCompanyDelete').click(function() {

@@ -89,7 +89,7 @@ class reservasi extends CI_Controller {
 		$this->Widget_Reservasi_model->Update(array('widget_reservasi_id' => $ArrayKey[0], 'validate_status' => 'by email'));
 		$Result['status'] = true;
 		$Result['message'] = 'validasi berhasil';
-		echo json_encode($Result);
+		echo 'Validasi anda berhasil.<br /><br />Admin<br />Terima Kasih';
 		exit;
 	}
 	

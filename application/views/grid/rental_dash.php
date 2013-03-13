@@ -26,7 +26,7 @@
 				<td><?php echo GetFormatDateCommon($Array['date_out']); ?></td>
 				<td><?php echo GetFormatDateCommon($Array['date_in']); ?></td>
 				<td><?php echo $Array['destination']; ?></td>
-				<td><?php echo $Array['rental_duration']; ?></td>
+				<td><?php echo $Array['rental_detail_jumlah'].' x '.$Array['rental_durasi_name']; ?></td>
 				<td><?php echo $Array['price_per_day']; ?></td>
 				<td class="hidden">
 					<?php echo json_encode($Array); ?>

@@ -4,7 +4,7 @@ class Company_model extends CI_Model {
 	function __construct() {
         parent::__construct();
 		
-		$this->Field = array('company_id', 'company_name', 'company_address', 'company_phone');
+		$this->Field = array('company_id', 'company_name', 'company_address', 'company_phone', 'indocrm_client_id', 'indocrm_privatekey');
     }
 	
 	function Update($Param) {
