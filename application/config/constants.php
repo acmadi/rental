@@ -61,7 +61,9 @@ define('RESERVASI',								'reservasi');
 define('RESERVASI_STATUS',						'reservasi_status');
 define('ROSTER',								'roster');
 define('SCHEDULE',								'schedule');
+define('SMS_LOG',								'sms_log');
 define('USER',									'users');
+define('WIDGET_RESERVASI',						'widget_reservasi');
 
 
 /* End of file constants.php */

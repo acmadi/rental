@@ -424,4 +424,16 @@ if (! function_exists('GetInteger')) {
 		return $Value;
 	}
 }
+
+if (! function_exists('SentMail')) {
+	function SentMail($Param) {
+		$Param['Subject'] = (isset($Param['Subject'])) ? $Param['Subject'] : '';
+		$Param['Message'] = (isset($Param['Message'])) ? $Param['Message'] : '';
+		if (empty($Param['Message'])) {
+			return;
+		}
+		
+		@mail($Param['Email'], $Param['Subject'], $Param['Message']);
+	}
+}
 ?>

@@ -67,6 +67,11 @@
 							<div class="row-fluid">
 								<h2 class="heading">Kalender</h2>
 								<div style="margin: 0 0 50px 0;" id="calendar"></div>
+								
+								<div id="WidgetReservasi">
+									<h2>Reservasi Online</h2>
+									<div class="widget_reservasi" style="margin: 0 0 50px 0;"><div class="datagrid"></div></div>
+								<div>
 				
 								<h2>Mobil Kembali</h2>
 								<div class="rental" style="margin: 0 0 50px 0;"><div class="datagrid"></div></div>
@@ -159,7 +164,30 @@
 			eval('Config = ' + ConfigRaw);
 			
 			var Local = {
-				LoadGridDriver: function(Param) {
+				LoadGridWidgetReservasi: function(Param) {
+					var GridParam = {
+						start: 0, limit: 10, page: 1,
+						sort: '[{"property":"tanggal","direction":"DESC"}]',
+						filter: '[{"type":"numeric","comparison":"eq","value":"pending","field":"status"}]'
+					}
+					
+					$.ajax({
+						type: "POST", url: Web.HOST + '/index.php/widget/reservasi/grid', data: GridParam
+					}).done(function( ResponseHtml ) {
+						$('#tab1 .widget_reservasi .datagrid').html(ResponseHtml);
+						
+						$('#WidgetReservasi .WindowWidgetDelete').click(function() {
+							var RawRecord = $(this).parent('td').children('span.hidden').text();
+							eval('var Record = ' + RawRecord);
+							
+							Func.ConfirmDelete({
+								Data: { Action: 'Update', widget_reservasi_id: Record.widget_reservasi_id, status: 'done' },
+								Url: '/widget/reservasi/action', Container: 'WidgetReservasi', LoadGrid: Local.LoadGridWidgetReservasi
+							});
+						});
+					});
+				},
+				LoadGridRental: function(Param) {
 					var GridParam = {
 						start: 0, limit: 10, page: 1, NoPaging: 1,
 						sort: '[{"property":"date_in","direction":"ASC"}]',
@@ -222,9 +250,10 @@
 					})
 				}
 			}
-			Local.LoadGridDriver({});
-			Local.LoadGridReservasi({});
 			Local.Calender();
+			Local.LoadGridWidgetReservasi();
+			Local.LoadGridRental({});
+			Local.LoadGridReservasi({});
 			
 			// Log out
 			$('#mainnav .Logout').click(function() {

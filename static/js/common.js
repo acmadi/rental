@@ -541,3 +541,10 @@ $.validator.addMethod("first_user", function(value, element) {
 	var Result = (user_id == 0 && password.length == 0) ? false : true;
 	return Result;
 }, "* Pengguna baru harus memiliki password");
+
+$.validator.addMethod("widget", function(value, element) {
+	var email = $('#WindowWidget input[name="email"]').val();
+	var telepon = $('#WindowWidget input[name="telepon"]').val();
+	var Result = (email.length == 0 && telepon.length == 0) ? false : true;
+	return Result;
+}, "* Harap mengisikan no telepon / email");
