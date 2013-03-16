@@ -6,7 +6,6 @@ class reservasi extends CI_Controller {
     }
     
     function index() {
-        $this->User_model->LoginRequeired();
         $this->load->view( 'widget/reservasi' );
     }
 	
