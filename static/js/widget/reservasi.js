@@ -1,6 +1,7 @@
-(function(){
+function init_widget(param) {
 	var h = 635; var w = 500;
-	var company = (typeof company_id=='number') ? company_id : 1;
-	var url = 'http://localhost:8666/rental/trunk//index.php/widget/reservasi/?company_id=' + escape(company);
+	var url = 'http://localhost:8666/rental/trunk/index.php/widget/reservasi/?company_id=' + escape(param.company_id) + '&widget_type=' + escape(param.widget_type);
 	document.write("<iframe src='" + url + "' height='" + h + "' width='" + w + "' frameborder='0' scrolling='no'></iframe>");
-})();
+}
+
+init_widget({ company_id: company_id, widget_type: widget_type });

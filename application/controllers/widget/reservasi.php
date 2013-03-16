@@ -17,30 +17,26 @@ class reservasi extends CI_Controller {
 			$ParamUpdate = $_POST;
 			if (empty($ParamUpdate['widget_reservasi_id'])) {
 				$ParamUpdate['status'] = 'pending';
-				$ParamUpdate['validate_key'] = rand(1000,9999);
 			}
 			$Result = $this->Widget_Reservasi_model->Update($ParamUpdate);
 			
-			// Sent Mail
-			if (!empty($ParamUpdate['email'])) {
-				$LinkValidate = $this->config->item('base_url').'/index.php/widget/reservasi/email/'.$Result['widget_reservasi_id'].'-'.EncriptPassword($ParamUpdate['validate_key']);
-//				echo $LinkValidate;
+			// Set Message for Widget
+			$Result['Message']  = 'Reservasi anda berhasil disimpan, harap menunggu pemberitahuan lebih lanjut dari admin.';
+		} else if ($Action == 'Update') {
+			$Result = $this->Widget_Reservasi_model->Update($_POST);
+			if (!empty($_POST['widget_reservasi_id']) && $_POST['status'] == 'ok') {
+				// Send SMS
+				$this->Widget_Reservasi_model->SendSms($_POST['widget_reservasi_id']);
+				
+				// Send Email
+				$Reservasi = $this->Widget_Reservasi_model->GetByID(array('widget_reservasi_id' => $_POST['widget_reservasi_id']));
 				$Param = array(
-					'Email' => $ParamUpdate['email'],
-					'Subject' => 'Validasi Reservasi Online',
-					'Message' =>
-						"Terima kasih telah melakukan reservasi online pada website kami, harap klik link berikut untuk memvalidasi reservasi anda.\n\n"
-						."$LinkValidate\n\n"
-						."Terima Kasih"
+					'Email' => $Reservasi['email'],
+					'Subject' => 'Reservasi Online Report',
+					'Message' => "Terima kasih reservasi anda telah berhasil diproses admin.\n\nSalam\nAdmin"
 				);
 				SentMail($Param);
 			}
-			
-			// Set Message
-			$Result['Message']  = 'Reservasi anda akan diproses setelah anda melakukan validasi email / sms, ';
-			$Result['Message'] .= 'silahkan mengecek email anda atau melakukan validasi sms dengan mengirim sms "LINTAS '.$Result['widget_reservasi_id'].'-'.$ParamUpdate['validate_key'].'" ke nomor XXXX';
-		} else if ($Action == 'Update') {
-			$Result = $this->Widget_Reservasi_model->Update($_POST);
 		}
 		
 		echo json_encode($Result);
@@ -50,6 +46,8 @@ class reservasi extends CI_Controller {
         $this->load->view( 'widget/reservasi_grid' );
     }
 	
+	/*
+	// feature didnot use
 	// validate by email
 	function email($validate_key = '') {
 		if (empty($validate_key)) {
@@ -91,41 +89,41 @@ class reservasi extends CI_Controller {
 		echo 'Validasi anda berhasil.<br /><br />Admin<br />Terima Kasih';
 		exit;
 	}
+	/*	*/
 	
-	// validate by sms
+	// reservasi by sms
 	function sms() {
-		$validate_key = $_GET['content'];
+		$msisdn = $_GET['msisdn'];
+		$content = $_GET['content'];
 		$this->Sms_Log_model->Update(array('sms_log_id' => 0, 'content' => $_SERVER['REQUEST_URI']));
 		
-		// check number data
-		$ArrayKey = explode('-', $validate_key);
-		if (count($ArrayKey) != 2) {
+		// check coontent
+		if (empty($content)) {
 			$Result['status'] = false;
-			$Result['message'] = 'key tidak valid';
+			$Result['message'] = 'content kosong';
 			echo json_encode($Result);
 			exit;
 		}
 		
-		// get record data
-		$Reservasi = $this->Widget_Reservasi_model->GetByID(array('widget_reservasi_id' => $ArrayKey[0]));
-		if (count($Reservasi) == 0) {
+		$ArrayContent = explode(' ', $content, 3);
+		$nama = (isset($ArrayContent[2])) ? $ArrayContent[2] : '';
+		$company_id = (isset($ArrayContent[1])) ? $ArrayContent[1] : '';
+		if (empty($nama) || empty($company_id)) {
 			$Result['status'] = false;
-			$Result['message'] = 'key tidak ditemukan';
+			$Result['message'] = 'data nama dan perusahaan kosong';
 			echo json_encode($Result);
 			exit;
 		}
 		
-		// check key validate
-		if (trim($ArrayKey[1]) != $Reservasi['validate_key']) {
-			$Result['status'] = false;
-			$Result['message'] = 'no validasi tidak sama';
-			echo json_encode($Result);
-			exit;
-		}
-		
-		$this->Widget_Reservasi_model->Update(array('widget_reservasi_id' => $ArrayKey[0], 'validate_status' => 'by sms'));
+		$ParamUpdate = array(
+			'widget_reservasi_id' => 0,
+			'nama' => $nama,
+			'mobile' => $msisdn,
+			'company_id' => $company_id
+		);
+		$this->Widget_Reservasi_model->Update($ParamUpdate);
 		$Result['status'] = true;
-		$Result['message'] = 'validasi berhasil';
+		$Result['message'] = 'reservasi berhasil';
 		echo json_encode($Result);
 		exit;
 	}

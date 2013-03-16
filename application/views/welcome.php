@@ -71,7 +71,7 @@
 								<div id="WidgetReservasi">
 									<h2>Reservasi Online</h2>
 									<div class="widget_reservasi" style="margin: 0 0 50px 0;"><div class="datagrid"></div></div>
-								<div>
+								</div>
 				
 								<h2>Mobil Kembali</h2>
 								<div class="rental" style="margin: 0 0 50px 0;"><div class="datagrid"></div></div>
@@ -176,12 +176,23 @@
 					}).done(function( ResponseHtml ) {
 						$('#tab1 .widget_reservasi .datagrid').html(ResponseHtml);
 						
+						$('#WidgetReservasi .WindowWidgetCheck').click(function() {
+							var RawRecord = $(this).parent('td').children('span.hidden').text();
+							eval('var Record = ' + RawRecord);
+							
+							$.ajax({
+								type: "POST", url: Web.HOST + '/index.php/widget/reservasi/action',
+								data: { Action: 'Update', widget_reservasi_id: Record.widget_reservasi_id, status: 'ok' }
+							}).done(function( ResponseHtml ) {
+								Local.LoadGridWidgetReservasi({});
+							});
+						});
 						$('#WidgetReservasi .WindowWidgetDelete').click(function() {
 							var RawRecord = $(this).parent('td').children('span.hidden').text();
 							eval('var Record = ' + RawRecord);
 							
 							Func.ConfirmDelete({
-								Data: { Action: 'Update', widget_reservasi_id: Record.widget_reservasi_id, status: 'done' },
+								Data: { Action: 'Update', widget_reservasi_id: Record.widget_reservasi_id, status: 'batal' },
 								Url: '/widget/reservasi/action', Container: 'WidgetReservasi', LoadGrid: Local.LoadGridWidgetReservasi
 							});
 						});

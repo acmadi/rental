@@ -5,8 +5,7 @@ class Widget_Reservasi_model extends CI_Model {
         parent::__construct();
 		
 		$this->Field = array(
-			'widget_reservasi_id', 'company_id', 'jenis', 'tujuan', 'tanggal', 'nama', 'telepon', 'email', 'alamat', 'catatan', 'status',
-			'validate_status', 'validate_key'
+			'widget_reservasi_id', 'company_id', 'jenis', 'tujuan', 'tanggal', 'nama', 'mobile', 'email', 'alamat', 'catatan', 'status'
 		);
     }
 	
@@ -104,5 +103,16 @@ class Widget_Reservasi_model extends CI_Model {
         $Result['Message'] = 'Data berhasil dihapus.';
 		
 		return $Result;
+	}
+	
+	function SendSms($widget_reservasi_id) {
+		$Record = $this->GetByID(array('widget_reservasi_id' => $widget_reservasi_id));
+		
+		$ApiParam = array(
+			'company_id' => $this->User_model->GetCompanyID(),
+			'msisdn' => $Record['mobile'],
+			'sms' => 'Terima Kasih, Reservasi anda telah diproses admin'
+		);
+		$Result = $this->api->request($this->config->item('indocrm_api') . 'sms', $ApiParam);
 	}
 }

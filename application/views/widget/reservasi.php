@@ -1,5 +1,6 @@
 <?php
 	$Company = $this->Company_model->GetByID(array('company_id' => $_GET['company_id']));
+	$WidgetType = (isset($_GET['widget_type'])) ? $_GET['widget_type'] : 'rental';
 	if (count($Company) == 0) {
 		echo 'Perusahaan tidak ditemukan.';
 		exit;
@@ -12,14 +13,11 @@
 	<div id="loading_layer" style="display:none"><img src="<?php echo $this->config->item('base_url'); ?>/static/img/ajax_loader.gif" alt="" /></div>
 	
 	<div id="WindowWidget" class="modal" tabindex="-1" role="dialog" aria-labelledby="windowTitleLabel" aria-hidden="true">
-		<div class="modal-header"><h3>Reservasi Online</h3></div>
+		<div class="modal-header"><h3>Reservasi <?php echo ucfirst($WidgetType); ?> Online</h3></div>
 		<div class="modal-body" style="max-height: 600px;">
 			<form class="form-horizontal">
 				<input type="hidden" name="company_id" value="<?php echo $Company['company_id']; ?>" />
-				<div class="control-group">
-					<label class="control-label">Jenis Reservasi</label>
-					<div class="controls"><input type="text" name="jenis" placeholder="Rental Mobil / Travel" /></div>
-				</div>
+				<input type="hidden" name="jenis" value="<?php echo $WidgetType; ?>" />
 				<div class="control-group">
 					<label class="control-label">Tujuan Reservasi</label>
 					<div class="controls"><input type="text" name="tujuan" placeholder="Tujuan Reservasi" /></div>
@@ -33,8 +31,8 @@
 					<div class="controls"><input type="text" name="nama" placeholder="Nama Pelanggan" /></div>
 				</div>
 				<div class="control-group">
-					<label class="control-label">Telepon</label>
-					<div class="controls"><input type="text" name="telepon" placeholder="Telepon" /></div>
+					<label class="control-label">Mobile</label>
+					<div class="controls"><input type="text" name="mobile" placeholder="No HP" /></div>
 				</div>
 				<div class="control-group">
 					<label class="control-label">Email</label>
@@ -94,7 +92,7 @@
 				Container: '#WindowWidget',
 				rule: {
 					jenis: { required: true }, tujuan: { required: true }, tanggal: { required: true }, nama: { required: true },
-					telepon: { required: true }, email: { widget: true }, alamat: { required: true }
+					mobile: { required: true }, alamat: { required: true }
 				}
 			});
 		})

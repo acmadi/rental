@@ -29,7 +29,11 @@ class api {
 		// Sync Data
 		$Result = json_decode($ResultJson);
 		$Result->api_result = (isset($Result->success) && $Result->success) ? 1 : 0;
-		$Result->indocrm_id = $Result->customer_id;
+		
+		if (isset($Result->customer_id) && !empty($Result->customer_id)) {
+			$Result->indocrm_id = $Result->customer_id;
+		}
+		
 		unset($Result->success);
 		unset($Result->customer_id);
 		$Result = (array)$Result;

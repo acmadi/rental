@@ -11,13 +11,10 @@
 			<th>Tujuan</th>
 			<th>Tanggal</th>
 			<th>Nama</th>
-			<th>Telepon</th>
+			<th>Mobile</th>
 			<th>Email</th>
-			<th>Alamat</th>
-			<th>Catatan</th>
 			<th>Status</th>
-			<th>Validasi</th>
-			<th style="text-align: center; width: 70px;">Aksi</th>
+			<th style="text-align: center; width: 140px;">Aksi</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -27,13 +24,11 @@
 				<td><?php echo $Array['tujuan']; ?></td>
 				<td><?php echo $Array['tanggal']; ?></td>
 				<td><?php echo $Array['nama']; ?></td>
-				<td><?php echo $Array['telepon']; ?></td>
+				<td><?php echo $Array['mobile']; ?></td>
 				<td><?php echo $Array['email']; ?></td>
-				<td><?php echo $Array['alamat']; ?></td>
-				<td><?php echo $Array['catatan']; ?></td>
 				<td><?php echo $Array['status']; ?></td>
-				<td><?php echo $Array['validate_status']; ?></td>
 				<td class="center">
+					<a class="cursor WindowWidgetCheck"><img src="<?php echo $this->config->item('base_url') . '/static/img/btn_check.png'; ?>" /></a>
 					<a class="cursor WindowWidgetDelete"><img src="<?php echo $this->config->item('base_url') . '/static/img/btn_del.png'; ?>" /></a>
 					<span class="hidden"><?php echo json_encode($Array); ?></span>
 				</td>
