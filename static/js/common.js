@@ -397,6 +397,60 @@ var Func = {
 	}
 }
 
+var Shortcut = {
+	AddRental: function(param) {
+		console.log(param);
+		
+		var loop = true;
+		if (param.step == 1) {
+			for (var i = 0; i < $('#accordion2 .btn-large').length; i++) {
+				var text = $('#accordion2 .btn-large').eq(i).text();
+				if (text == 'Sewa') {
+					param.step++;
+					$('#accordion2 .btn-large').eq(i).click();
+				}
+			}
+		} else if (param.step == 2) {
+			if ($('#CntRental .WindowRentalAdd').length == 1) {
+				loop = false;
+				$('#CntRental .WindowRentalAdd').click();
+			}
+		}
+		
+		if (loop) {
+			setTimeout(function() {
+				Shortcut.AddRental(param);
+			}, 500);
+		}
+	},
+	AddTravel: function(param) {
+		var loop = true;
+		if (param.step == 1) {
+			for (var i = 0; i < $('#accordion2 .btn-large').length; i++) {
+				var text = $('#accordion2 .btn-large').eq(i).text();
+				if (text == 'Reservasi') {
+					param.step++;
+					$('#accordion2 .btn-large').eq(i).click();
+				}
+			}
+		} else if (param.step == 2) {
+			if ($('#CntReservasi .WindowReservasiAdd').length == 1) {
+				loop = false;
+				$('#CntReservasi .WindowReservasiAdd').click();
+				$('#CntReservasi input[name="customer_name"]').val(param.record.nama);
+				$('#CntReservasi input[name="customer_phone"]').val(param.record.mobile);
+				$('#CntReservasi textarea[name="customer_address"]').val(param.record.alamat);
+			}
+		}
+		
+		if (loop) {
+			setTimeout(function() {
+				Shortcut.AddTravel(param);
+			}, 500);
+		}
+	}
+}
+
 var TypeAhead = {
 	Customer: function(Input, Param) {
 		Input.typeahead({

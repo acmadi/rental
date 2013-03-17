@@ -14,6 +14,13 @@ class reservasi extends CI_Controller {
 		$Action = (isset($_POST['Action'])) ? $_POST['Action'] : '';
 		
 		if ($Action == 'UpdateWidgetReservasi') {
+			if (! $this->Widget_Reservasi_model->IsAllowSubmit()) {
+				$Result['QueryStatus'] = '1';
+				$Result['Message'] = 'Maaf, anda dapat melakukan pengisian setelah 1 jam lagi.';
+				echo json_encode($Result);
+				exit;
+			}
+			
 			$ParamUpdate = $_POST;
 			if (empty($ParamUpdate['widget_reservasi_id'])) {
 				$ParamUpdate['status'] = 'pending';
@@ -37,13 +44,15 @@ class reservasi extends CI_Controller {
 				);
 				SentMail($Param);
 			}
+		} else if ($Action == 'Delete') {
+			$Result = $this->Widget_Reservasi_model->Delete($_POST);
 		}
 		
 		echo json_encode($Result);
 	}
 	
     function grid() {
-        $this->load->view( 'widget/reservasi_grid' );
+        $this->load->view( 'grid/reservasi_online' );
     }
 	
 	/*

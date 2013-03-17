@@ -176,6 +176,16 @@
 					}).done(function( ResponseHtml ) {
 						$('#tab1 .widget_reservasi .datagrid').html(ResponseHtml);
 						
+						$('#WidgetReservasi .WindowWidgetShortcut').click(function() {
+							var RawRecord = $(this).parent('td').children('span.hidden').text();
+							eval('var Record = ' + RawRecord);
+							
+							if (Record.jenis == 'rental') {
+								Shortcut.AddRental({ step: 1, record: Record });
+							} else if (Record.jenis == 'travel') {
+								Shortcut.AddTravel({ step: 1, record: Record });
+							}
+						});
 						$('#WidgetReservasi .WindowWidgetCheck').click(function() {
 							var RawRecord = $(this).parent('td').children('span.hidden').text();
 							eval('var Record = ' + RawRecord);

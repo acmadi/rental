@@ -36,7 +36,7 @@ class Merge_model extends CI_Model {
 		foreach ($ArrayTravel as $Travel) {
 			$ArrayDate = ConvertDateToArray($Travel['schedule_date']);
 			$Array[] = array(
-				'title' => $Rental['device'].' '.$Rental['driver_name'],
+				'title' => $Travel['device'].' '.$Travel['driver_name'],
 				'start_text' => 'new Date('.$ArrayDate['Year'].', '.($ArrayDate['Month'] - 1).', '.$ArrayDate['Day'].')',
 				'color' => '#BCDEEE',
 				'textColor' => '#1C546D',

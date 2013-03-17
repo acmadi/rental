@@ -115,4 +115,18 @@ class Widget_Reservasi_model extends CI_Model {
 		);
 		$Result = $this->api->request($this->config->item('indocrm_api') . 'sms', $ApiParam);
 	}
+	
+	function IsAllowSubmit() {
+		$CurrentTime = time();
+		$WidgetDelay = (isset($_SESSION['WidgetDelay'])) ? $_SESSION['WidgetDelay'] : 0;
+		
+		$Result = true;
+		if ($CurrentTime < $WidgetDelay) {
+			$Result = false;
+		} else {
+			$_SESSION['WidgetDelay'] = time() + (60 * 60);
+		}
+		
+		return $Result;
+	}
 }
