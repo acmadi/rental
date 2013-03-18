@@ -128,7 +128,9 @@ class reservasi extends CI_Controller {
 			'widget_reservasi_id' => 0,
 			'nama' => $nama,
 			'mobile' => $msisdn,
-			'company_id' => $company_id
+			'company_id' => $company_id,
+			'jenis' => 'sms',
+			'status' => 'pending'
 		);
 		$this->Widget_Reservasi_model->Update($ParamUpdate);
 		$Result['status'] = true;
