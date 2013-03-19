@@ -40,7 +40,7 @@ class reservasi extends CI_Controller {
 				$Param = array(
 					'Email' => $Reservasi['email'],
 					'Subject' => 'Reservasi Online Report',
-					'Message' => "Terima Kasih,\nReservasi Anda sudah diproses\n\n\n--\nSimetri Tour And Travel\n0341-406633"
+					'Message' => "Terima Kasih,\nReservasi Anda sudah diproses\n\n--\nSimetri Tour And Travel\n0341-406633"
 				);
 				SentMail($Param);
 			}

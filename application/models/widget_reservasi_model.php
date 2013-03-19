@@ -111,7 +111,7 @@ class Widget_Reservasi_model extends CI_Model {
 		$ApiParam = array(
 			'company_id' => $this->User_model->GetCompanyID(),
 			'msisdn' => $Record['mobile'],
-			'sms' => "Terima Kasih,\nReservasi Anda sudah diproses\n\n\n--\nSimetri Tour And Travel\n0341-406633"
+			'sms' => "Terima Kasih,\nReservasi Anda sudah diproses\n\n--\nSimetri Tour And Travel\n0341-406633"
 		);
 		$Result = $this->api->request($this->config->item('indocrm_api') . 'sms', $ApiParam);
 	}
